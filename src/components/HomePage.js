@@ -1,12 +1,13 @@
 import React from 'react';
 
-const TEST_EMAIL = "RealKatieRealEstate@gmail.com";
-const PROD_EMAIL = "Kate.mcmasters@foxroach.com"
+// const TEST_EMAIL = "RealKatieRealEstate@gmail.com";
+// const PROD_EMAIL = "Kate.mcmasters@foxroach.com"
 
+const email = process.env.REACT_ENV_EMAIL_TO_SEND_TO || "";
 
 const HomePage = () => {
   return (
-    <form action={`https://formsubmit.co/${TEST_EMAIL}`} method="POST">
+    <form action={`https://formsubmit.co/${email}`} method="POST">
       <input placeholder='First Name' type="text" name="first-name" required />
       <input placeholder='Last Name' type="text" name="last-name" required />
       <input placeholder='Phone Number' type="tel" name="tel" required />
