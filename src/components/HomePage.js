@@ -3,7 +3,8 @@ import React from 'react';
 // const TEST_EMAIL = "RealKatieRealEstate@gmail.com";
 // const PROD_EMAIL = "Kate.mcmasters@foxroach.com"
 
-const email = process.env.REACT_ENV_EMAIL_TO_SEND_TO || "";
+const email = process.env.REACT_APP_EMAIL_TO_SEND_TO || "no email assigned";
+console.log(email);
 
 const HomePage = () => {
   return (
