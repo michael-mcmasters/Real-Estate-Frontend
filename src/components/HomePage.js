@@ -2,7 +2,7 @@ import React from 'react';
 
 const HomePage = () => {
   return (
-    <form action="https://formsubmit.co/realkatierealestate@gmail.com" method="POST">
+    <form action="https://formsubmit.co/katie.mcmasters@foxroach.com" method="POST">
       <input placeholder='First Name' type="text" name="name" required />
       <input placeholder='Last Name' type="text" name="name" required />
       <input placeholder='Phone Number' type="tel" name="tel" required />
