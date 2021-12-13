@@ -1,11 +1,11 @@
 import ContactForm from "./components/ContactForm";
-import HomesContainer from "./components/HomesContainer";
+import HomeCardsContainer from "./components/HomeCardsContainer";
 
 function App() {
   return (
     <div>
       {/* <ContactForm /> */}
-      <HomesContainer />
+      <HomeCardsContainer />
     </div>
   );
 }
