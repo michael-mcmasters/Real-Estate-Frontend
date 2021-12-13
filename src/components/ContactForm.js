@@ -2,7 +2,7 @@ import React from 'react';
 
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
-const HomePage = () => {
+const ContactForm = () => {
   return (
     <form action={`https://formsubmit.co/${email}`} method="POST">
       <input placeholder='First Name' type="text" name="first-name" required />
@@ -14,4 +14,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default ContactForm;
