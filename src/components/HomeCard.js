@@ -8,6 +8,7 @@ const HomeCard = ({img, street, city, state, zip, neighborhood}) => {
       <Container>
         <ImageContainer>
           <Image src={img} />
+          <Price>$1,100,000</Price>
         </ImageContainer>
         
         <ContentContainer>
@@ -50,14 +51,25 @@ const Container = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  display: flex;
-  justify-content: center;
+
 `;
 
 const Image = styled.img`
   width: 100%;
   height: 17rem;
 `;
+
+const Price = styled.div`
+  position: relative;
+  bottom: 3rem;
+  left: 0.7rem;
+  width: fit-content;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: white;
+`;
+
+
 
 const ContentContainer = styled.div`
   padding: 0 1rem;
