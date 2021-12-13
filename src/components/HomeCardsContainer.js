@@ -1,6 +1,8 @@
 import React from 'react';
 import HomeCard from './HomeCard';
-import img from "../images/house1.jpeg";
+import house1 from "../images/house1.jpeg";
+import house2 from "../images/house2.jpeg";
+import house3 from "../images/house3.jpeg";
 import styled from "styled-components"
 
 const HomeCardsContainer = () => {
@@ -9,7 +11,7 @@ const HomeCardsContainer = () => {
     <Container>
       
       <HomeCard
-        img={img}
+        img={house1}
         street={"1115 Hillside Rd"}
         city={"Greenville"}
         state={"DE"}
@@ -18,7 +20,16 @@ const HomeCardsContainer = () => {
       />
       
       <HomeCard
-        img={img}
+        img={house2}
+        street={"1115 Hillside Rd"}
+        city={"Greenville"}
+        state={"DE"}
+        zip={"19807"}
+        neighborhood={"Pleasant Valley"}
+      />
+      
+      <HomeCard
+        img={house3}
         street={"1115 Hillside Rd"}
         city={"Greenville"}
         state={"DE"}
