@@ -14,6 +14,7 @@ const HomeCardsContainer = () => {
         city={"Greenville"}
         state={"DE"}
         zip={"19807"}
+        neighborhood={"Pleasant Valley"}
       />
       
       <HomeCard
@@ -22,6 +23,7 @@ const HomeCardsContainer = () => {
         city={"Greenville"}
         state={"DE"}
         zip={"19807"}
+        neighborhood={"Pleasant Valley"}
       />
       
     </Container>
