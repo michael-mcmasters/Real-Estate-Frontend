@@ -46,7 +46,7 @@ const HomeCard = ({img, price, street, city, state, zip, neighborhood}) => {
 };
 
 const Container = styled.div`
-  margin: 1rem auto;;
+  margin: 1rem auto;
   width: 100%;
   background-color: lightgray;
 `;
