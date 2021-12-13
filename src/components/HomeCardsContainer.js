@@ -12,6 +12,7 @@ const HomeCardsContainer = () => {
       
       <HomeCard
         img={house1}
+        price={"1,100,000"}
         street={"1115 Hillside Rd"}
         city={"Greenville"}
         state={"DE"}
@@ -21,6 +22,7 @@ const HomeCardsContainer = () => {
       
       <HomeCard
         img={house2}
+        price={"1,100,000"}
         street={"1115 Hillside Rd"}
         city={"Greenville"}
         state={"DE"}
@@ -30,6 +32,7 @@ const HomeCardsContainer = () => {
       
       <HomeCard
         img={house3}
+        price={"1,100,000"}
         street={"1115 Hillside Rd"}
         city={"Greenville"}
         state={"DE"}

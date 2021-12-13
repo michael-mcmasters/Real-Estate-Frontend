@@ -1,17 +1,15 @@
 import React from 'react';
 import styled from "styled-components"
 
-
-const HomeCard = ({img, street, city, state, zip, neighborhood}) => {
+const HomeCard = ({img, price, street, city, state, zip, neighborhood}) => {
   return (
     <div>
       <Container>
         <ImageContainer>
           <Image src={img} />
-          <InnerImageItemsContainer>
-            <Available>Available</Available>
-            <Price>$1,100,000</Price>
-          </InnerImageItemsContainer>
+          <Price>${price}</Price>
+          <Available>Available</Available>
+          <HeartIcon>Heart</HeartIcon>
         </ImageContainer>
         
         <ContentContainer>
@@ -54,7 +52,7 @@ const Container = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  /* height: fit-content; */
+  position: relative;
 `;
 
 const Image = styled.img`
@@ -62,38 +60,34 @@ const Image = styled.img`
   height: 17rem;
 `;
 
-const InnerImageItemsContainer = styled.div`
-  border: 1px solid yellow;
-  background-color: yellow;
-  position: relative;
-  width: 80%;
-  height: 80%;
-`;
-  
 const Available = styled.div`
   position: absolute;
-  top: 0;
-  /* left: 0.7rem; */
+  top: 12px;
+  left: 12px;
   
-  /* padding: 0.5rem;
+  padding: 0.5rem;
   background-color: gray;
   color: white;
   font-weight: 900;
-  font-size: 0.8rem; */
+  font-size: 0.8rem;
+`;
+
+const HeartIcon = styled.div`
+  position: absolute;
+  top: 12px;
+  right: 12px;
 `;
 
 const Price = styled.div`
   position: absolute;
-  bottom: 1rem;
-  left: 0.7rem;
+  bottom: 12px;
+  left: 12px;
   
   width: fit-content;
-  font-weight: 900;
+  font-weight: 700;
   font-size: 1.5rem;
   color: white;
 `;
-
-
 
 const ContentContainer = styled.div`
   padding: 0 1rem;
