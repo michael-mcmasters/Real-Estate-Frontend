@@ -4,7 +4,7 @@ import HomeCardsContainer from "./components/HomeCardsContainer";
 function App() {
   return (
     <div>
-      {/* <ContactForm /> */}
+      <ContactForm />
       <HomeCardsContainer />
     </div>
   );
