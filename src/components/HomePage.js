@@ -31,7 +31,7 @@ const HomePage = () => {
           <Input type="email" name="email" placeholder="Email Address" required />
           
           {/* Goes to this link on submit */}
-          <Input type="hidden" name="_next" value="https://katlynmcmasters.foxroach.com/#" />
+          <Input type="hidden" name="_next" value="https://katlynmcmasters.foxroach.com/Featured-Properties" />
           {/* Tricks bots to avoid spam */}
           <Input type="text" name="_honey" style={{ display: "none" }} />
           {/* Subject of email */}
@@ -64,10 +64,16 @@ const Form = styled.form`
 
 const Input = styled.input`
   margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid black;
 `;
 
 const Button = styled.button`
   margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid black;
 `;
 
 export default HomePage;
