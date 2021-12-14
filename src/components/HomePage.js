@@ -9,6 +9,7 @@ const HomePage = () => {
       <input placeholder='Last Name' type="text" name="last-name" required />
       <input placeholder='Phone Number' type="tel" name="tel" required />
       <input placeholder='Email Address' type="email" name="email" required />
+      <input type="hidden" name="_next" value="https://katlynmcmasters.foxroach.com/#"></input>
       <button type="submit">Accept</button>
     </form>
   );
