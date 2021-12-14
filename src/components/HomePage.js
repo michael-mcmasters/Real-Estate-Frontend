@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styled from "styled-components";
 
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
@@ -20,22 +21,53 @@ const HomePage = () => {
   
   // Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation
   return (
-    <form action={`https://formsubmit.co/${email}`} method="POST">
-      <input onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' type="text" name="first-name" required />
-      <input onChange={(e) => setLastName(e.target.value)} placeholder='Last Name' type="text" name="last-name" required />
-      <input placeholder='Phone Number' type="tel" name="tel" required />
-      <input type="email" name="email" placeholder="Email Address" required />
-      
-      {/* Goes to this link on submit */}
-      <input type="hidden" name="_next" value="https://katlynmcmasters.foxroach.com/#" />
-      {/* Tricks bots to avoid spam */}
-      <input type="text" name="_honey" style={{ display: "none" }} />
-      {/* Subject of email */}
-      <input type="hidden" name="_subject" value={`New Lead! - ${capitalizeFirstLetter(firstName)} ${capitalizeFirstLetter(lastName)}`} />
-      
-      <button type="submit">Accept</button>
-    </form>
+    <>
+      <Container>
+        <Title>Please fill to continue</Title>
+        <Form action={`https://formsubmit.co/${email}`} method="POST">
+          <Input onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' type="text" name="first-name" required />
+          <Input onChange={(e) => setLastName(e.target.value)} placeholder='Last Name' type="text" name="last-name" required />
+          <Input placeholder='Phone Number' type="tel" name="tel" required />
+          <Input type="email" name="email" placeholder="Email Address" required />
+          
+          {/* Goes to this link on submit */}
+          <Input type="hidden" name="_next" value="https://katlynmcmasters.foxroach.com/#" />
+          {/* Tricks bots to avoid spam */}
+          <Input type="text" name="_honey" style={{ display: "none" }} />
+          {/* Subject of email */}
+          <Input type="hidden" name="_subject" value={`New Lead! - ${capitalizeFirstLetter(firstName)} ${capitalizeFirstLetter(lastName)}`} />
+          
+          <Button type="submit">Continue</Button>
+        </Form>
+      </Container>
+    </>
   );
 };
+
+const Container = styled.div`
+  margin-top: 5rem;
+`;
+
+const Title = styled.div`
+  margin: 0 auto;
+  width: fit-content;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  max-width: 10rem;
+  margin-top: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const Input = styled.input`
+  margin: 0.5rem;
+`;
+
+const Button = styled.button`
+  margin: 0.5rem;
+`;
 
 export default HomePage;
