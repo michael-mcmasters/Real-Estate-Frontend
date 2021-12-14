@@ -44,7 +44,7 @@ const HomePage = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.h3`
   margin-top: 5rem;
 `;
 
@@ -57,7 +57,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   max-width: 10rem;
-  margin-top: 0.5rem;
+  margin-top: 0.7rem;
   margin-left: auto;
   margin-right: auto;
 `;
