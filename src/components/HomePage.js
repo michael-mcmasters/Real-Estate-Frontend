@@ -31,7 +31,7 @@ const HomePage = () => {
           <Input type="email" name="email" placeholder="Email Address" required />
           
           {/* Goes to this link on submit */}
-          <Input type="hidden" name="_next" value="https://katlynmcmasters.foxroach.com/Featured-Properties" />
+          <Input type="hidden" name="_next" value="https://katlynmcmasters.foxroach.com/prufoxroach/?p=findahome.asp&selected=qck&acc=&street=130%20BERNICE%20DR&city=BEAR&state=DE&zip=19701&addrentered=true" />
           {/* Tricks bots to avoid spam */}
           <Input type="text" name="_honey" style={{ display: "none" }} />
           {/* Subject of email */}
