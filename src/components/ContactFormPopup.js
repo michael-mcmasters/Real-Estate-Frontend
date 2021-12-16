@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
 
-const HomePage = () => {
+const ContactFormPopup = () => {
   
+  const [backgroundBlur, setBackgroundBlur] = useState("0px");
+  const [topHeight, setTopHeight] = useState('100%');
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName]= useState("");
+  
+  useEffect(() => {
+    setBackgroundBlur("6px");
+    setTopHeight("25%");
+  }, []);
   
   function capitalizeFirstLetter(name) {
     if (name == null && name == undefined) return;
@@ -22,7 +29,9 @@ const HomePage = () => {
   // Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation
   return (
     <>
-      <Container>
+      <Background backgroundBlur={backgroundBlur} />
+    
+      <Container topHeight={topHeight}>
         <Title>Please fill to continue</Title>
         <Form action={`https://formsubmit.co/${email}`} method="POST">
           <Input onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' type="text" name="first-name" required />
@@ -44,11 +53,39 @@ const HomePage = () => {
   );
 };
 
-const Container = styled.h3`
-  margin-top: 5rem;
+const Background = styled.div`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  backdrop-filter: blur(${props => props.backgroundBlur});
+  transition: backdrop-filter 0.2s;
+  
+  z-index: 1;
 `;
 
-const Title = styled.div`
+const Container = styled.div`
+  position: fixed;
+  left: 50%;
+  top: 25%;
+  transition: top 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  
+  top: ${props => props.topHeight};
+  transform: translateX(-50%);
+  -webkit-transform:translateX(-50%);
+  padding: 1.3rem 1.7rem;
+  border: 2px solid #401c2c;
+  border-radius: 17px;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.8);
+  background-color: #996178;
+  z-index: 1;
+  cursor: pointer;
+  width: fit-content;
+  
+  
+`;
+
+const Title = styled.h3`
   margin: 0 auto;
   width: fit-content;
 `;
@@ -63,17 +100,18 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  margin: 0.5rem;
+  margin: 0.75rem;
   padding: 0.5rem;
   border-radius: 8px;
   border: 1px solid black;
 `;
 
 const Button = styled.button`
-  margin: 0.5rem;
+  margin: 0.75rem;
+  margin-top: 1rem;
   padding: 0.5rem;
   border-radius: 8px;
   border: 1px solid black;
 `;
 
-export default HomePage;
+export default ContactFormPopup;
