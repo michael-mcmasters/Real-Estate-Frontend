@@ -13,7 +13,7 @@ const ContactFormPopup = () => {
   
   useEffect(() => {
     setBackgroundBlur("6px");
-    setTopHeight("25%");
+    setTopHeight("15%");
   }, []);
   
   function capitalizeFirstLetter(name) {
