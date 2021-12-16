@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import abc from "../images/simplescreenshot.png";
 import styled from "styled-components";
 
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
@@ -22,6 +23,7 @@ const HomePage = () => {
   // Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation
   return (
     <>
+    <img src={abc} />
       <Container>
         <Title>Please fill to continue</Title>
         <Form action={`https://formsubmit.co/${email}`} method="POST">
