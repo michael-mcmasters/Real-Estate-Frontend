@@ -68,6 +68,7 @@ const Container = styled.div`
   background-color: #996178;
   z-index: 1;
   cursor: pointer;
+  width: fit-content;
 `;
 
 const Title = styled.h3`
@@ -85,14 +86,15 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  margin: 0.5rem;
+  margin: 0.75rem;
   padding: 0.5rem;
   border-radius: 8px;
   border: 1px solid black;
 `;
 
 const Button = styled.button`
-  margin: 0.5rem;
+  margin: 0.75rem;
+  margin-top: 1rem;
   padding: 0.5rem;
   border-radius: 8px;
   border: 1px solid black;
