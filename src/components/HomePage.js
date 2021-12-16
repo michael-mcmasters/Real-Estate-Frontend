@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import abc from "../images/simplescreenshot.png";
 import styled from "styled-components";
 
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
@@ -23,7 +22,8 @@ const HomePage = () => {
   // Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation
   return (
     <>
-    <img src={abc} />
+      <Background />
+    
       <Container>
         <Title>Please fill to continue</Title>
         <Form action={`https://formsubmit.co/${email}`} method="POST">
@@ -46,11 +46,31 @@ const HomePage = () => {
   );
 };
 
-const Container = styled.h3`
-  margin-top: 5rem;
+const Background = styled.div`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  backdrop-filter: blur(2px);
+  z-index: 1;
 `;
 
-const Title = styled.div`
+const Container = styled.div`
+  position: fixed;
+  left: 50%;
+  top: 25%;
+  transform: translateX(-50%);
+  -webkit-transform:translateX(-50%);
+  padding: 1rem 1.3rem;
+  border: 2px solid #401c2c;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.8);
+  background-color: #996178;
+  z-index: 1;
+  cursor: pointer;
+`;
+
+const Title = styled.h3`
   margin: 0 auto;
   width: fit-content;
 `;
