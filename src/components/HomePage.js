@@ -61,9 +61,9 @@ const Container = styled.div`
   top: 25%;
   transform: translateX(-50%);
   -webkit-transform:translateX(-50%);
-  padding: 1rem 1.3rem;
+  padding: 1.3rem 1.7rem;
   border: 2px solid #401c2c;
-  border-radius: 10px;
+  border-radius: 17px;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.8);
   background-color: #996178;
   z-index: 1;
