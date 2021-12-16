@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import abc from "./images/actual-website.jpg";
 import styled from "styled-components";
-import HomePage from "./components/HomePage";
+import ContactFormPopup from "./components/ContactFormPopup";
 
 function App() {
   const [showPopup, setShowPopup] = useState(false);
@@ -9,15 +9,15 @@ function App() {
   useEffect(() => {
     setTimeout(() => {
       setShowPopup(true);
-    }, 1000)
+    }, 750)
   }, [showPopup]);
   
   return (
-    <div>
+    <>
       <Image src={abc} />
       
-      {showPopup && <HomePage />}
-    </div>
+      {showPopup && <ContactFormPopup />}
+    </>
   );
 }
 
