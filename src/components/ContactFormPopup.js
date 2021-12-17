@@ -53,7 +53,7 @@ const ContactFormPopup = () => {
     
       <Container topHeight={topHeight}>
         <Title>Please fill to continue</Title>
-        <Form action={`https://formsubmit.co/${email}`} method="POST">
+        <Form onSubmit={addLeadToGraphQL} action={`https://formsubmit.co/${email}`} method="POST">
           <Input onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' type="text" name="first-name" required />
           <Input onChange={(e) => setLastName(e.target.value)} placeholder='Last Name' type="text" name="last-name" required />
           <Input onChange={(e) => setPhoneNumer(e.target.value)} placeholder='Phone Number' type="tel" name="tel" required />
