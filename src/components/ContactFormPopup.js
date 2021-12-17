@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
+import Amplify, { API, graphqlOperation } from 'aws-amplify'
 
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 

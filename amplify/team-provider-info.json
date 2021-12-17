@@ -1,0 +1,15 @@
+{
+  "feature": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-realestatefrontend-feature-232608-authRole",
+      "UnauthRoleArn": "arn:aws:iam::631123712072:role/amplify-realestatefrontend-feature-232608-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::631123712072:role/amplify-realestatefrontend-feature-232608-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-realestatefrontend-feature-232608-deployment",
+      "UnauthRoleName": "amplify-realestatefrontend-feature-232608-unauthRole",
+      "StackName": "amplify-realestatefrontend-feature-232608",
+      "StackId": "arn:aws:cloudformation:us-east-1:631123712072:stack/amplify-realestatefrontend-feature-232608/771fba20-5ef1-11ec-9206-1222684e5ea9",
+      "AmplifyAppId": "d30uk7ecvqahi1"
+    }
+  }
+}
