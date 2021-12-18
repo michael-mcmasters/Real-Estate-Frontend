@@ -1,0 +1,7 @@
+type Person @model {
+  id: ID!
+  firstName: String
+  lastName: String
+  phone: String
+  email: String
+}
