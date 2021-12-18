@@ -1,52 +1,72 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
+import Amplify, { API, graphqlOperation } from 'aws-amplify'
+import { createPerson } from '../graphql/mutations'
 
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
 
 const ContactFormPopup = () => {
-  
+
   const [backgroundBlur, setBackgroundBlur] = useState("0px");
   const [topHeight, setTopHeight] = useState('100%');
+
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName]= useState("");
-  
+  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumer] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
   useEffect(() => {
     setBackgroundBlur("6px");
     setTopHeight("15%");
   }, []);
-  
+
   function capitalizeFirstLetter(name) {
     if (name == null && name == undefined) return;
-    
+
     if (name.length > 1) {
       return name.charAt(0).toUpperCase() + name.slice(1);
     } else {
       return name.charAt(0).toUpperCase();
     }
   }
-  
+
+  async function addLeadToGraphQL() {
+    try {
+      const person = {
+        firstName,
+        lastName,
+        phone: phoneNumber,
+        email: userEmail
+      }
+      await API.graphql(graphqlOperation(createPerson, { input: person }))
+      console.log("New lead added to GraphQL");
+    } catch (err) {
+      console.log("Adding lead to GraphQL did not work. Error: " + err);
+    }
+  }
+
   // Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation
   return (
     <>
       <Background backgroundBlur={backgroundBlur} />
-    
+      
       <Container topHeight={topHeight}>
         <Title>Please fill to continue</Title>
-        <Form action={`https://formsubmit.co/${email}`} method="POST">
+        <Form onSubmit={addLeadToGraphQL} action={`https://formsubmit.co/${email}`} method="POST">
           <Input onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' type="text" name="first-name" required />
           <Input onChange={(e) => setLastName(e.target.value)} placeholder='Last Name' type="text" name="last-name" required />
-          <Input placeholder='Phone Number' type="tel" name="tel" required />
-          <Input type="email" name="email" placeholder="Email Address" required />
-          
+          <Input onChange={(e) => setPhoneNumer(e.target.value)} placeholder='Phone Number' type="tel" name="tel" required />
+          <Input onChange={(e) => setUserEmail(e.target.value)} type="email" name="email" placeholder="Email Address" required />
+
           {/* Goes to this link on submit */}
           <Input type="hidden" name="_next" value="https://130bernicedr.go2frr.com/index.html" />
           {/* Tricks bots to avoid spam */}
           <Input type="text" name="_honey" style={{ display: "none" }} />
           {/* Subject of email */}
           <Input type="hidden" name="_subject" value={`New Lead! - ${capitalizeFirstLetter(firstName)} ${capitalizeFirstLetter(lastName)}`} />
-          
-          <Button type="submit">Continue</Button>
+          {/* Sends email */}
+          <Button type="submit" onSubmitCapture={addLeadToGraphQL} onSubmit={addLeadToGraphQL}>Continue</Button>
         </Form>
       </Container>
     </>
@@ -81,8 +101,6 @@ const Container = styled.div`
   z-index: 1;
   cursor: pointer;
   width: fit-content;
-  
-  
 `;
 
 const Title = styled.h3`
