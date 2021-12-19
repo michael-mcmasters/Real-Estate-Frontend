@@ -24,5 +24,18 @@
       "StackId": "arn:aws:cloudformation:us-east-1:631123712072:stack/amplify-realestate-developtwo-15721/bfda0c50-5fcf-11ec-9ffb-0e8cfc7da511",
       "AmplifyAppId": "d2i03ollcflhdr"
     }
+  },
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-realestate-prod-184208-authRole",
+      "UnauthRoleArn": "arn:aws:iam::631123712072:role/amplify-realestate-prod-184208-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::631123712072:role/amplify-realestate-prod-184208-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-realestate-prod-184208-deployment",
+      "UnauthRoleName": "amplify-realestate-prod-184208-unauthRole",
+      "StackName": "amplify-realestate-prod-184208",
+      "StackId": "arn:aws:cloudformation:us-east-1:631123712072:stack/amplify-realestate-prod-184208/483a5770-6125-11ec-8183-0abb831a44c5",
+      "AmplifyAppId": "d2i03ollcflhdr"
+    }
   }
 }
