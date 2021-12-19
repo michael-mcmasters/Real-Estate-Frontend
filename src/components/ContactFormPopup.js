@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
-import { createPerson } from '../graphql/mutations'
+import { createLead } from '../graphql/mutations'
 import { Logger } from 'aws-amplify';
 
 const logger = new Logger('MyLoggerName');
@@ -42,7 +42,7 @@ const ContactFormPopup = () => {
         phone: phoneNumber,
         email: userEmail
       }
-      await API.graphql(graphqlOperation(createPerson, { input: person }))
+      await API.graphql(graphqlOperation(createLead, { input: person }))
       // console.log("New lead added to GraphQL");
       logger.info("New lead added to GraphQL");
     } catch (err) {

@@ -1,49 +1,52 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createPerson = /* GraphQL */ `
-  mutation CreatePerson(
-    $input: CreatePersonInput!
-    $condition: ModelPersonConditionInput
+export const createLead = /* GraphQL */ `
+  mutation CreateLead(
+    $input: CreateLeadInput!
+    $condition: ModelLeadConditionInput
   ) {
-    createPerson(input: $input, condition: $condition) {
+    createLead(input: $input, condition: $condition) {
       id
       firstName
       lastName
       phone
       email
+      house
       createdAt
       updatedAt
     }
   }
 `;
-export const updatePerson = /* GraphQL */ `
-  mutation UpdatePerson(
-    $input: UpdatePersonInput!
-    $condition: ModelPersonConditionInput
+export const updateLead = /* GraphQL */ `
+  mutation UpdateLead(
+    $input: UpdateLeadInput!
+    $condition: ModelLeadConditionInput
   ) {
-    updatePerson(input: $input, condition: $condition) {
+    updateLead(input: $input, condition: $condition) {
       id
       firstName
       lastName
       phone
       email
+      house
       createdAt
       updatedAt
     }
   }
 `;
-export const deletePerson = /* GraphQL */ `
-  mutation DeletePerson(
-    $input: DeletePersonInput!
-    $condition: ModelPersonConditionInput
+export const deleteLead = /* GraphQL */ `
+  mutation DeleteLead(
+    $input: DeleteLeadInput!
+    $condition: ModelLeadConditionInput
   ) {
-    deletePerson(input: $input, condition: $condition) {
+    deleteLead(input: $input, condition: $condition) {
       id
       firstName
       lastName
       phone
       email
+      house
       createdAt
       updatedAt
     }
