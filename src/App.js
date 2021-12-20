@@ -4,7 +4,9 @@ import styled from "styled-components";
 import ContactFormPopup from "./components/ContactFormPopup";
 import { Logger } from 'aws-amplify';
 
-const logger = new Logger('MyLoggerName');
+const logger = new Logger('logBuddy');
+Amplify.register(logger);
+logger.addPluggable(new AWSCloudWatchProvider());
 
 function App() {
   const [showPopup, setShowPopup] = useState(false);
