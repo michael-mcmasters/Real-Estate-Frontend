@@ -4,8 +4,6 @@ import Amplify, { API, graphqlOperation } from 'aws-amplify'
 import { createLead } from '../graphql/mutations'
 import { Logger } from 'aws-amplify';
 
-const logger = new Logger('MyLoggerName');
-
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
 
@@ -43,11 +41,9 @@ const ContactFormPopup = () => {
         email: userEmail
       }
       await API.graphql(graphqlOperation(createLead, { input: person }))
-      // console.log("New lead added to GraphQL");
-      logger.info("New lead added to GraphQL");
+      console.log("New lead added to GraphQL");
     } catch (err) {
-      // console.log("Adding lead to GraphQL did not work. Error: " + err);
-      logger.info("Adding lead to GraphQL did not work. Error: " + err);
+      console.log("Adding lead to GraphQL did not work. Error: " + err);
     }
   }
 
