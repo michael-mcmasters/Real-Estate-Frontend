@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
 import { createLead } from '../graphql/mutations'
+import GLogo from "../images/GLogo.png"
 
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
@@ -10,7 +11,9 @@ const ContactFormPopup = () => {
 
   const [backgroundBlur, setBackgroundBlur] = useState("0px");
   const [topHeight, setTopHeight] = useState('100%');
-  
+
+  const [authenticatedUser, setAuthenticatedUser] = useState(null);
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumer] = useState("");
@@ -21,12 +24,21 @@ const ContactFormPopup = () => {
     setTopHeight("15%");
   }, []);
   
-  function checkUser() {
-    Auth.currentAuthenticatedUser().then(cognitoUser => {
-      console.log(cognitoUser);
-      console.log(cognitoUser.attributes.email);
-      console.log(cognitoUser.attributes.name);
-    })
+  useEffect(() => {
+    checkUserAuthenticated();
+  }, []);
+
+  function checkUserAuthenticated() {
+    try {
+      Auth.currentAuthenticatedUser().then(cognitoUser => {
+        console.log(cognitoUser);
+        console.log(cognitoUser.attributes.email);
+        console.log(cognitoUser.attributes.name);
+        setAuthenticatedUser(cognitoUser);
+      })
+    } catch(exc) {
+      
+    }
   }
 
   function capitalizeFirstLetter(name) {
@@ -58,13 +70,21 @@ const ContactFormPopup = () => {
   return (
     <>
       <Background backgroundBlur={backgroundBlur} />
-      
+
       <Container topHeight={topHeight}>
+        
+        {authenticatedUser == null && (
+          <GoogleContainer>
+            <GoogleImage src={GLogo} /> 
+            <span>Continue with Google</span> 
+          </GoogleContainer>
+        )}
+        
         <button onClick={() => Auth.federatedSignIn({ provider: "Google" })} >Continue with Google</button>
         <button onClick={() => Auth.federatedSignIn()}>Normal Log In</button>
         <button onClick={async () => await Auth.signOut()}>Sign Out</button>
-        <button onClick={checkUser}>Check User</button>
-        
+        <button onClick={checkUserAuthenticated}>Check User</button>
+
         <Title>Please fill to continue</Title>
         <Form onSubmit={addLeadToGraphQL} action={`https://formsubmit.co/${email}`} method="POST">
           <Input onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' type="text" name="first-name" required />
@@ -116,33 +136,24 @@ const Container = styled.div`
   width: fit-content;
 `;
 
+const GoogleContainer = styled.div`
+  background-color: white;
+`;
+
+const GoogleImage = styled.img`
+  width: 2rem;
+`;
+
 const Title = styled.h3`
-  margin: 0 auto;
-  width: fit-content;
 `;
 
 const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  max-width: 10rem;
-  margin-top: 0.7rem;
-  margin-left: auto;
-  margin-right: auto;
 `;
 
 const Input = styled.input`
-  margin: 0.75rem;
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid black;
 `;
 
 const Button = styled.button`
-  margin: 0.75rem;
-  margin-top: 1rem;
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid black;
 `;
 
 export default ContactFormPopup;
