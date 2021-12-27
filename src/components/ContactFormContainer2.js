@@ -3,6 +3,7 @@ import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
 import { createLead } from '../graphql/mutations'
 import ContactFormPopup3 from './ContactFormPopup3';
 import PhoneNumberForm from "./PhoneNumberForm";
+import styled, { css } from "styled-components";
 
 const ContactFormContainer2 = () => {
   const [authorizedSSO, setauthorizedSSO] = useState(false);
@@ -59,12 +60,11 @@ const ContactFormContainer2 = () => {
     }
   }
   
-  // let element = null;
-  // element = <PhoneNumberForm loading={true} setPhone={setPhone} />
-
   let element = null;
-  if (false) {
+  if (true) {
       element = <ContactFormPopup3
+      Background={Background}
+      Container={Container}
       name={name}
       setName={setName}
       setEmail={setEmail}
@@ -72,16 +72,16 @@ const ContactFormContainer2 = () => {
       handleSubmit={handleSubmitButton}
     />;
   } else if (true) {
-    if (true) {
-      element = <PhoneNumberForm loading={true} setPhone={setPhone} />
+    if (false) {
+      element = <PhoneNumberForm Background={Background} loading={true} setPhone={setPhone} Container={Container} />
       // Show popup but have loading symbol.
     } else if (false) {
-      element = <PhoneNumberForm loading={false} setPhone={setPhone} errorMessage={""} errorMessage={"There was an error authenticating. Please try again"} />
+      element = <PhoneNumberForm Background={Background} loading={false} setPhone={setPhone} errorMessage={""} errorMessage={"There was an error authenticating. Please try again"} />
       // Have popup say "There was an error authenticating, please try again"
       // set localStorage.setItem("authorizedSSO", "false")
       // Set authorizedSSO to false, fetchCognitoComplete to false, authenticatedUsingCognito to false.
     } else if (false) {
-      element = <PhoneNumberForm loading={false} setPhone={setPhone} errorMessage={""}/>
+      element = <PhoneNumberForm Background={Background} loading={false} setPhone={setPhone} errorMessage={""}/>
       // Show popup, ask for phone number, save to DB, redirect to actual website
     }
   }
@@ -136,5 +136,38 @@ const ContactFormContainer2 = () => {
     </>
   );
 };
+
+const Background = styled.div`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  transition: backdrop-filter 0.2s;
+  z-index: 1;
+  
+  backdrop-filter: blur(0px);
+  ${props => props.transition && css`
+    backdrop-filter: blur(6px);
+  `}
+`;
+
+const Container = styled.div`
+  position: fixed;
+  left: 50%;
+  top: 25%;
+  transition: ${props => props.transition ? "top 0.2s cubic-bezier(0.075, 0.82, 0.165, 1)" : ""};
+  
+  top: ${props => props.transition ? "15%" : ""};
+  transform: translateX(-50%);
+  -webkit-transform:translateX(-50%);
+  padding: 1.3rem 1.7rem;
+  border: 2px solid #401c2c;
+  border-radius: 17px;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.8);
+  background-color: #996178;
+  z-index: 1;
+  cursor: pointer;
+  width: fit-content;
+`;
 
 export default ContactFormContainer2;
