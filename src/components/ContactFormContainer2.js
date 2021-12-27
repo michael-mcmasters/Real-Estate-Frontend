@@ -59,8 +59,11 @@ const ContactFormContainer2 = () => {
     }
   }
   
+  // let element = null;
+  // element = <PhoneNumberForm loading={true} setPhone={setPhone} />
+
   let element = null;
-  if (!authorizedSSO) {
+  if (false) {
       element = <ContactFormPopup3
       name={name}
       setName={setName}
@@ -68,23 +71,47 @@ const ContactFormContainer2 = () => {
       setPhone={setPhone}
       handleSubmit={handleSubmitButton}
     />;
-  } else if (authorizedSSO) {
-    if (!fetchCognitoComplete) {
-      console.log("2")
+  } else if (true) {
+    if (true) {
       element = <PhoneNumberForm loading={true} setPhone={setPhone} />
       // Show popup but have loading symbol.
-    } else if (fetchCognitoComplete && !authenticatedUsingCognito) {
-      console.log("3")
+    } else if (false) {
       element = <PhoneNumberForm loading={false} setPhone={setPhone} errorMessage={""} errorMessage={"There was an error authenticating. Please try again"} />
       // Have popup say "There was an error authenticating, please try again"
       // set localStorage.setItem("authorizedSSO", "false")
       // Set authorizedSSO to false, fetchCognitoComplete to false, authenticatedUsingCognito to false.
-    } else if (fetchCognitoComplete && authenticatedUsingCognito) {
-      console.log("4")
+    } else if (false) {
       element = <PhoneNumberForm loading={false} setPhone={setPhone} errorMessage={""}/>
       // Show popup, ask for phone number, save to DB, redirect to actual website
     }
   }
+  
+  // let element = null;
+  // if (!authorizedSSO) {
+  //     element = <ContactFormPopup3
+  //     name={name}
+  //     setName={setName}
+  //     setEmail={setEmail}
+  //     setPhone={setPhone}
+  //     handleSubmit={handleSubmitButton}
+  //   />;
+  // } else if (authorizedSSO) {
+  //   if (!fetchCognitoComplete) {
+  //     console.log("2")
+  //     element = <PhoneNumberForm loading={true} setPhone={setPhone} />
+  //     // Show popup but have loading symbol.
+  //   } else if (fetchCognitoComplete && !authenticatedUsingCognito) {
+  //     console.log("3")
+  //     element = <PhoneNumberForm loading={false} setPhone={setPhone} errorMessage={""} errorMessage={"There was an error authenticating. Please try again"} />
+  //     // Have popup say "There was an error authenticating, please try again"
+  //     // set localStorage.setItem("authorizedSSO", "false")
+  //     // Set authorizedSSO to false, fetchCognitoComplete to false, authenticatedUsingCognito to false.
+  //   } else if (fetchCognitoComplete && authenticatedUsingCognito) {
+  //     console.log("4")
+  //     element = <PhoneNumberForm loading={false} setPhone={setPhone} errorMessage={""}/>
+  //     // Show popup, ask for phone number, save to DB, redirect to actual website
+  //   }
+  // }
 
   return (
     <>
