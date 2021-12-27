@@ -5,6 +5,9 @@
       "validatetypenamereservedwords": true,
       "useexperimentalpipelinedtransformer": false,
       "enableiterativegsiupdates": false
+    },
+    "project": {
+      "overrides": true
     }
   }
 }

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
-import Amplify, { API, graphqlOperation } from 'aws-amplify'
+import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
 import { createLead } from '../graphql/mutations'
-import { Logger } from 'aws-amplify';
 
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
@@ -21,6 +20,14 @@ const ContactFormPopup = () => {
     setBackgroundBlur("6px");
     setTopHeight("15%");
   }, []);
+  
+  function checkUser() {
+    Auth.currentAuthenticatedUser().then(cognitoUser => {
+      console.log(cognitoUser);
+      console.log(cognitoUser.attributes.email);
+      console.log(cognitoUser.attributes.name);
+    })
+  }
 
   function capitalizeFirstLetter(name) {
     if (name == null && name == undefined) return;
@@ -53,6 +60,11 @@ const ContactFormPopup = () => {
       <Background backgroundBlur={backgroundBlur} />
       
       <Container topHeight={topHeight}>
+        <button onClick={() => Auth.federatedSignIn({ provider: "Google" })} >Continue with Google</button>
+        <button onClick={() => Auth.federatedSignIn()}>Noral Log In</button>
+        <button onClick={async () => await Auth.signOut()}>Sign Out</button>
+        <button onClick={checkUser}>Check User</button>
+        
         <Title>Please fill to continue</Title>
         <Form onSubmit={addLeadToGraphQL} action={`https://formsubmit.co/${email}`} method="POST">
           <Input onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' type="text" name="first-name" required />

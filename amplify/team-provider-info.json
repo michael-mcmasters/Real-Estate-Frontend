@@ -24,5 +24,23 @@
       "StackId": "arn:aws:cloudformation:us-east-1:631123712072:stack/amplify-realestate-developtwo-15721/bfda0c50-5fcf-11ec-9ffb-0e8cfc7da511",
       "AmplifyAppId": "d2i03ollcflhdr"
     }
+  },
+  "googleauth": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-realestate-googleauth-143032-authRole",
+      "UnauthRoleArn": "arn:aws:iam::631123712072:role/amplify-realestate-googleauth-143032-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::631123712072:role/amplify-realestate-googleauth-143032-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-realestate-googleauth-143032-deployment",
+      "UnauthRoleName": "amplify-realestate-googleauth-143032-unauthRole",
+      "StackName": "amplify-realestate-googleauth-143032",
+      "StackId": "arn:aws:cloudformation:us-east-1:631123712072:stack/amplify-realestate-googleauth-143032/4a29d580-6682-11ec-88d6-0afe1fa1a939",
+      "AmplifyAppId": "d2i03ollcflhdr"
+    },
+    "categories": {
+      "auth": {
+        "realestatef4db0eca": {}
+      }
+    }
   }
 }
