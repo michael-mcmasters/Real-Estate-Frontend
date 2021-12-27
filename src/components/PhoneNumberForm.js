@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PhoneNumberForm = () => {
+const PhoneNumberForm = ({loading, setPhone}) => {
   return (
     <div>
       One more thing!

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import ContactFormPopup from "./components/ContactFormPopup";
 import ContactFormPopup2 from "./components/ContactFormPopup2";
 import ContactFormContainer from "./components/ContactFormContainer";
+import ContactFormContainer2 from "./components/ContactFormContainer2";
 
 function App() {
   const [showPopup, setShowPopup] = useState(false);
@@ -18,7 +19,7 @@ function App() {
     <>
       <Image src={abc} />
       
-      {showPopup && <ContactFormContainer />}
+      {showPopup && <ContactFormContainer2 />}
     </>
   );
 }

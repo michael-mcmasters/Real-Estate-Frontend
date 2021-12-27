@@ -16,6 +16,11 @@ const ContactFormPopup3 = ({ name, setName, setEmail, setPhone, handleSubmit }) 
     setBackgroundBlur("6px");
     setTopHeight("15%");
   }, []);
+  
+  function handleSSOSignOn(provider) {
+    localStorage.setItem("authorizedSSO", "true");
+    Auth.federatedSignIn({ provider: provider });
+  }
 
   return (
     <>
@@ -33,8 +38,8 @@ const ContactFormPopup3 = ({ name, setName, setEmail, setPhone, handleSubmit }) 
           </div>
         </>
 
-        <button onClick={() => Auth.federatedSignIn({ provider: "Google" })} >Continue with Google</button>
-        <button onClick={() => Auth.federatedSignIn({ provider: "Facebook" })} >Continue with Facebook</button>
+        <button onClick={() => handleSSOSignOn("Google")} >Continue with Google</button>
+        <button onClick={() => handleSSOSignOn("Facebook")} >Continue with Facebook</button>
         <button onClick={() => Auth.federatedSignIn()}>Normal Log In</button>
         <button onClick={async () => await Auth.signOut()}>Sign Out</button>
 
