@@ -14,6 +14,7 @@ const ContactFormPopup = () => {
 
   const [authenticatedUser, setAuthenticatedUser] = useState(null);
 
+  // TODO: Onlyuse firstName. Get rid of lastname.
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumer] = useState("");
@@ -33,7 +34,17 @@ const ContactFormPopup = () => {
       Auth.currentAuthenticatedUser().then(cognitoUser => {
         console.log(cognitoUser);
         console.log(cognitoUser.attributes.email);
-        console.log(cognitoUser.attributes.name);
+        
+        let name;
+        if (cognitoUser.username.includes("Google")) {
+          console.log("google")
+          name = cognitoUser.attributes.name;
+        } else if (cognitoUser.username.includes("Facebook")) {
+          console.log('facebook')
+          name = cognitoUser.attributes.name + " ";
+          name += cognitoUser.attributes[`family_name`];
+        }
+        console.log(name);
         setAuthenticatedUser(cognitoUser);
       })
     } catch(exc) {
@@ -74,13 +85,19 @@ const ContactFormPopup = () => {
       <Container topHeight={topHeight}>
         
         {authenticatedUser == null && (
+          <>
           <GoogleContainer>
             <GoogleImage src={GLogo} /> 
             <span>Continue with Google</span> 
           </GoogleContainer>
+          <div>
+            <span>ToDo: Continue with Facebook</span>
+          </div>
+          </>
         )}
         
         <button onClick={() => Auth.federatedSignIn({ provider: "Google" })} >Continue with Google</button>
+        <button onClick={() => Auth.federatedSignIn({ provider: "Facebook" })} >Continue with Facebook</button>
         <button onClick={() => Auth.federatedSignIn()}>Normal Log In</button>
         <button onClick={async () => await Auth.signOut()}>Sign Out</button>
         <button onClick={checkUserAuthenticated}>Check User</button>
