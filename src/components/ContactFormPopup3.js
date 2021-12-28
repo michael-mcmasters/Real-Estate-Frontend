@@ -19,22 +19,27 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
       <Background transition={transition} />
 
       <Container transition={transition}>
+        
+        <TitleContainer>
+          <Title>Get instant access to these great properties</Title>
+        </TitleContainer>
 
-        <SSOContainer fontColor={"white"} backgroundColor={"#237CF3"}>
-          <FImage src={FLogo} />
-          <Text>Continue with Facebook</Text>
-        </SSOContainer>
-        <br />
-        <SSOContainer fontColor={"white"} backgroundColor={"#DF513F"}>
-          <GImage src={GLogo} />
-          <Text>Continue with Google</Text>
-        </SSOContainer>
+        <SingleSignOnContainer>
+          <SingleSignOn fontColor={"white"} backgroundColor={"#237CF3"}>
+            <FImage src={FLogo} />
+            <Text>Continue with Facebook</Text>
+          </SingleSignOn>
+          
+          <SingleSignOn fontColor={"white"} backgroundColor={"#DF513F"}>
+            <GImage src={GLogo} />
+            <Text>Continue with Google</Text>
+          </SingleSignOn>
+        </SingleSignOnContainer>
         
 
         {/* <button onClick={() => handleSSOSignIn("Google")} >Continue with Google</button> */}
         {/* <button onClick={() => handleSSOSignIn("Facebook")} >Continue with Facebook</button> */}
 
-        <Title>Please fill to continue</Title>
         {/* Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation */}
         <Form onSubmit={handleSubmit} action={`https://formsubmit.co/${email}`} method="POST">
           <Input onChange={(e) => setName(e.target.value)} placeholder='First Name' type="text" name="first-name" required />
@@ -57,7 +62,26 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
   );
 };
 
-const SSOContainer = styled.div`
+const TitleContainer = styled.div`
+  margin: 0 auto;
+  padding: 0;
+  /* border: 1px solid red; */
+  border-bottom: 1px solid black;
+  text-align: center;
+`;
+
+const Title = styled.h3`
+  /* width: fit-content; */
+  /* padding-bottom: 1rem; */
+`;
+
+const SingleSignOnContainer = styled.div`
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid black;
+`;
+
+const SingleSignOn = styled.div`
   display: flex;
   align-items: center;
   border: 1px solid #E5E5E5;
@@ -97,10 +121,8 @@ const Text = styled.span`
 
 
 
-const Title = styled.h3`
-`;
-
 const Form = styled.form`
+  margin-top: 1rem;
 `;
 
 const Input = styled.input`
