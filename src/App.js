@@ -6,6 +6,13 @@ import ContactFormPopup from "./components/ContactFormPopup";
 import ContactFormPopup2 from "./components/ContactFormPopup2";
 import ContactFormContainer from "./components/ContactFormContainer";
 import ContactFormContainer2 from "./components/ContactFormContainer2";
+import Dummy from "./components/Dummy";
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+import SignInHandler from './components/SignInHandler';
 
 function App() {
   const [showPopup, setShowPopup] = useState(false);
@@ -17,14 +24,41 @@ function App() {
   }, [showPopup]);
   
   return (
-    <>
       <ThemeProvider theme={ColorTheme}>
         <Image src={abc} />
       
-        {showPopup && <ContactFormContainer2 />}
+        <SignInHandler />
       </ThemeProvider>
-    </>
   );
+  
+  // return (
+  //   <ThemeProvider theme={ColorTheme}>
+  //     <Image src={abc} />
+      
+  //     <BrowserRouter>
+  //       <Routes>
+  //         <Route path="/" element={<Dummy />}>
+  //           <Route index element={<Dummy />} />
+  //           <Route path="teams" element={<Dummy />}>
+  //             <Route path=":teamId" element={<Dummy />} />
+  //             <Route path="new" element={<Dummy />} />
+  //             <Route index element={<Dummy />} />
+  //           </Route>
+  //         </Route>
+  //       </Routes>
+  //     </BrowserRouter>
+  //   </ThemeProvider>
+  // );
+  
+  // return (
+  //   <>
+  //     <ThemeProvider theme={ColorTheme}>
+        // <Image src={abc} />
+      
+  //       {showPopup && <ContactFormContainer2 />}
+  //     </ThemeProvider>
+  //   </>
+  // );
 }
 
 const ColorTheme = {
