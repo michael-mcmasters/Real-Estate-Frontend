@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from "styled-components";
 import GLogo from "../images/GLogo.png"
+import FLogo from "../images/FLogo.png"
 
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
@@ -19,15 +20,16 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
 
       <Container transition={transition}>
 
-        <>
-          <GoogleContainer>
-            <GoogleImage src={GLogo} />
-            <span>Continue with Google</span>
-          </GoogleContainer>
-          <div>
-            <span>ToDo: Continue with Facebook</span>
-          </div>
-        </>
+        <SSOContainer fontColor={"white"} backgroundColor={"#237CF3"}>
+          <FImage src={FLogo} />
+          <Text>Continue with Facebook</Text>
+        </SSOContainer>
+        <br />
+        <SSOContainer fontColor={"white"} backgroundColor={"#DF513F"}>
+          <GImage src={GLogo} />
+          <Text>Continue with Google</Text>
+        </SSOContainer>
+        
 
         {/* <button onClick={() => handleSSOSignIn("Google")} >Continue with Google</button> */}
         {/* <button onClick={() => handleSSOSignIn("Facebook")} >Continue with Facebook</button> */}
@@ -55,13 +57,45 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
   );
 };
 
-const GoogleContainer = styled.div`
-  background-color: white;
+const SSOContainer = styled.div`
+  display: flex;
+  align-items: center;
+  border: 1px solid #E5E5E5;
+  border-radius: 7px;
+  padding: 0.5rem 1rem;
+  width: 15rem;
+  margin: 0 auto;
+  
+  font-weight: 600;
+  color: ${props => props.fontColor};
+  background-color: ${props => props.backgroundColor};
+  
+  &:hover {
+    opacity: 0.8;
+    transition: 0.2s;
+  }
 `;
 
-const GoogleImage = styled.img`
-  width: 2rem;
+const FImage = styled.img`
+  width: 2.1rem;
+  height: 2.1rem;
+  background-color: white;
+  border-radius: 9999px;
 `;
+
+const GImage = styled.img`
+  width: 1.5rem;
+  background-color: white;
+  padding: 0.3rem;
+  border-radius: 9999px;
+`;
+
+const Text = styled.span`
+  display: inline-block;
+  margin: 0 auto;
+`;
+
+
 
 const Title = styled.h3`
 `;
