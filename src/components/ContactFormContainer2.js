@@ -28,6 +28,8 @@ const ContactFormContainer2 = () => {
           console.log("User signed in to Cognito");
           setName(user.attributes.name);
           setEmail(user.attributes.email);
+          console.log(user.attributes.name);
+          console.log(user.attributes.email);
           setAuthenticatedUsingCognito(true);
         })
         .catch(() => console.log("User not signed in to Cognito or could not be found"))
@@ -36,7 +38,7 @@ const ContactFormContainer2 = () => {
           setFetchCognitoComplete(true)
         });
     } else {
-      console.log(`authorizedSSO is false. Value from localStorage: ${authorizedSSO}`);
+      console.log(`authorizedSSO is false.`);
     }
   }, [])
   
@@ -78,7 +80,7 @@ const ContactFormContainer2 = () => {
       handleSubmit={handleSubmitButton}
     />;
   } else if (authorizedSSO) {
-    if (false) {
+      if (!fetchCognitoComplete) {
       element = <PhoneNumberForm Background={Background} loading={true} setPhone={setPhone} Container={Container} />
       // Show popup but have loading symbol.
       } else if (fetchCognitoComplete && !authenticatedUsingCognito) {
