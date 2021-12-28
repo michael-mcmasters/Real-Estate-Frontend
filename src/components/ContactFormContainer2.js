@@ -53,7 +53,8 @@ const ContactFormContainer2 = () => {
   }
   
   function redirectToActualWebsite() {
-    
+    // location.href = 'https://katlynmcmasters.foxroach.com/';
+    window.location.assign('https://katlynmcmasters.foxroach.com/');
   }
 
   async function addLeadToGraphQL() {
@@ -130,7 +131,7 @@ const SignOutButton = styled.button`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 2
+  z-index: 2;
 `;
 
 const Background = styled.div`
@@ -163,6 +164,7 @@ const Container = styled.div`
   border-radius: 10px;
   padding: 0 1rem;
   min-width: 17rem;
+  min-height: 16.5rem;
   
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.8);
   

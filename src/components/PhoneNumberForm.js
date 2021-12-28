@@ -24,6 +24,8 @@ const PhoneNumberForm = ({ Background, Container, loading, setPhone, handleSubmi
         <ContentText>
           Please enter your phone number.          
         </ContentText>
+        
+        {/* I think this being a form, submit automatically refreshes the page. Maybe wnat to just change this into a regular button. */}
         <Form onSubmit={handleSubmitButton}>
           <Label for="phone">Phone:</Label>
           <Input onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" required />
