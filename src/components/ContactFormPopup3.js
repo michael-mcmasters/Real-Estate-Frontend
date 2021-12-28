@@ -42,11 +42,11 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
         {/* Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation */}
         <Form onSubmit={handleSubmit} action={`https://formsubmit.co/${email}`} method="POST">
           <Label for="name">Name:</Label>
-          <Input onChange={(e) => setName(e.target.value)} id="name" placeholder='Name...' type="text" name="name" required />
+          <Input onChange={(e) => setName(e.target.value)} id="name" placeholder='First and last name' type="text" name="name" required />
           <Label for="email">Email:</Label>
-          <Input onChange={(e) => setEmail(e.target.value)} id="email" placeholder="Email..." type="email" name="email" required />
-          <Label for="phone">Phone Number:</Label>
-          <Input onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='Phone Number...' type="tel" name="tel" required />
+          <Input onChange={(e) => setEmail(e.target.value)} id="email" placeholder="email@domain.com" type="email" name="email" required />
+          <Label for="phone">Phone:</Label>
+          <Input onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" required />
 
           {/* Removes reCaptcha */}
           <Input type="hidden" name="_captcha" value="false" />
