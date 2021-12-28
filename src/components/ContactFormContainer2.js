@@ -172,7 +172,7 @@ const Container = styled.div`
   border: 1px solid black;
   border-radius: 10px;
   padding: 0 1rem;
-  width: 80%;
+  /* width: 80%; */
   
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.8);
   

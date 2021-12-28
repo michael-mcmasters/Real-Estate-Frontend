@@ -25,29 +25,28 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
         </TitleContainer>
 
         <SingleSignOnContainer>
-          <SingleSignOn fontColor={"white"} backgroundColor={"#237CF3"}>
+          <SingleSignOn backgroundColor={"#237CF3"}>
             <FImage src={FLogo} />
             <Text>Continue with Facebook</Text>
           </SingleSignOn>
           
-          <SingleSignOn fontColor={"white"} backgroundColor={"#DF513F"}>
+          <SingleSignOn backgroundColor={"#DF513F"}>
             <GImage src={GLogo} />
             <Text>Continue with Google</Text>
           </SingleSignOn>
         </SingleSignOnContainer>
         
 
-        {/* <button onClick={() => handleSSOSignIn("Google")} >Continue with Google</button> */}
-        {/* <button onClick={() => handleSSOSignIn("Facebook")} >Continue with Facebook</button> */}
 
+        {/* <FormTitle>Or enter your info</FormTitle> */}
         {/* Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation */}
         <Form onSubmit={handleSubmit} action={`https://formsubmit.co/${email}`} method="POST">
-          <label for="name">Name:</label>
-          <Input onChange={(e) => setName(e.target.value)} id="name" placeholder='First Name' type="text" name="first-name" required />
-          <label for="email">Email:</label>
-          <Input onChange={(e) => setEmail(e.target.value)} id="email" placeholder="Email Address" type="email" name="email" required />
-          <label for="phone">Phone Number:</label>
-          <Input onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='Phone Number' type="tel" name="tel" required />
+          <Label for="name">Name:</Label>
+          <Input onChange={(e) => setName(e.target.value)} id="name" placeholder='Name...' type="text" name="name" required />
+          <Label for="email">Email:</Label>
+          <Input onChange={(e) => setEmail(e.target.value)} id="email" placeholder="Email..." type="email" name="email" required />
+          <Label for="phone">Phone Number:</Label>
+          <Input onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='Phone Number...' type="tel" name="tel" required />
 
           {/* Removes reCaptcha */}
           <Input type="hidden" name="_captcha" value="false" />
@@ -93,7 +92,7 @@ const SingleSignOn = styled.div`
   margin: 0 auto;
   
   font-weight: 600;
-  color: ${props => props.fontColor};
+  color: white;
   background-color: ${props => props.backgroundColor};
   
   &:hover {
@@ -123,23 +122,44 @@ const Text = styled.span`
 
 
 
+const FormTitle = styled.h5`
+  /* margin: 1rem auto; */
+  margin-left: 1rem;
+  width: fit-content;
+`;
+
 const Form = styled.form`
-  margin-top: 1rem;
+  margin: 1rem auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   /* border: 1px solid red; */
-  height: 10rem;
-  /* padding: 1rem 0; */
+  width: 15rem;
+`;
+
+const Label = styled.label`
+  font-weight: bold;
+  margin-bottom: 0.3rem;;
 `;
 
 const Input = styled.input`
   padding: 0.5rem;
-  border-radius: 8px;
+  /* border-radius: 8px; */
+  border-radius: 4px;
   border: 1px solid black;
+  margin-bottom: 1rem;
 `;
 
 const Button = styled.button`
+  margin: 0.5rem auto;
+  padding: 0.75rem;
+  width: fit-content;
+  font-weight: 600;
+  color: white;
+  /* border: none; */
+  border: 1px solid ${props => props.theme.gray};
+  border-radius: 10px;
+  background-color: orange;
 `;
 
 export default ContactFormPopup3;
