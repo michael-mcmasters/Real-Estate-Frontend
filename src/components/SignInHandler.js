@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
+import { BrowserRouter, Routes, Route, useSearchParams } from "react-router-dom";
+import styled, { css } from "styled-components";
 import Dummy from "./Dummy";
 import ContactFormPopup3 from './ContactFormPopup3';
 import PhoneNumberForm from './PhoneNumberForm';
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from "react-router-dom";
-import styled, { css } from "styled-components";
 
 const SignInHandler = () => {
   
@@ -23,6 +20,16 @@ const SignInHandler = () => {
     }, 750)
   }, [showPopup]);
   
+  useEffect(() => {
+    const href = window.location.href
+    if (!href.includes("authorizedSSO")) {
+      console.log(`User has not authorized SSO according to URL: ${href}`) 
+      return;
+    }
+    console.log(`User authorized SSO`);
+    
+  }, [])
+  
   // Handles links / and /authorizedSSO
   
   // On /
@@ -35,7 +42,8 @@ const SignInHandler = () => {
   
   function handleSSOSignIn(provider) {
     // localStorage.setItem("authorizedSSO", "true");
-    // Auth.federatedSignIn({ provider: provider });
+    console.log("SIGNED IN")
+    Auth.federatedSignIn({ provider: provider });
   }
 
   function handleSubmitButton() {
@@ -48,33 +56,44 @@ const SignInHandler = () => {
   }
     
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={
-          <>
-            {
-              showPopup &&
-              <ContactFormPopup3
+    <>
+      <SignOutButton onClick={async () => {
+          await Auth.signOut()
+        }}
+      >SignOut</SignOutButton>
+      {/* <BrowserRouter> */}
+        <Routes>
+          <Route path="/" element={
+            <>
+              {
+                showPopup &&
+                <ContactFormPopup3
+                  Background={Background}
+                  Container={Container}
+                  name={name}
+                  setName={setName}
+                  setEmail={setEmail}
+                  setPhone={setPhone}
+                  handleSSOSignIn={handleSSOSignIn}
+                  handleSubmit={handleSubmitButton}
+                />
+              }
+            </>
+          } />
+          <Route path="/authorizedSSO" element={
+            <>
+              <PhoneNumberForm
                 Background={Background}
                 Container={Container}
-                name={name}
-                setName={setName}
-                setEmail={setEmail}
+                loading={true}
                 setPhone={setPhone}
-                handleSSOSignIn={handleSSOSignIn}
-                handleSubmit={handleSubmitButton}
-              />              
-            }
-          </>
-        } />
-        {/* <Route path="/authorizedSSO" element={<Dummy />} /> */}
-        <Route path="/authorizedSSO" element={
-          <>
-            <PhoneNumberForm Background={Background} Container={Container} loading={true} setPhone={setPhone} handleSubmitButton={handleSubmitButton} />
-          </>
-        } />
-      </Routes>
-    </BrowserRouter>
+                handleSubmitButton={handleSubmitButton}
+              />
+            </>
+          } />
+        </Routes>
+      {/* </BrowserRouter> */}
+    </>
   );
 };
 

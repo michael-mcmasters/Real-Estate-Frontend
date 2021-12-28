@@ -25,9 +25,11 @@ function App() {
   
   return (
       <ThemeProvider theme={ColorTheme}>
+      <BrowserRouter>
         <Image src={abc} />
       
         <SignInHandler />
+      </BrowserRouter>
       </ThemeProvider>
   );
   
