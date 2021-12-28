@@ -19,7 +19,7 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
 
       <Container transition={transition}>
 
-        {/* <>
+        <>
           <GoogleContainer>
             <GoogleImage src={GLogo} />
             <span>Continue with Google</span>
@@ -27,10 +27,10 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
           <div>
             <span>ToDo: Continue with Facebook</span>
           </div>
-        </> */}
+        </>
 
-        <button onClick={() => handleSSOSignIn("Google")} >Continue with Google</button>
-        <button onClick={() => handleSSOSignIn("Facebook")} >Continue with Facebook</button>
+        {/* <button onClick={() => handleSSOSignIn("Google")} >Continue with Google</button> */}
+        {/* <button onClick={() => handleSSOSignIn("Facebook")} >Continue with Facebook</button> */}
 
         <Title>Please fill to continue</Title>
         {/* Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation */}

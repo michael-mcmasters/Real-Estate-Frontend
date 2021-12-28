@@ -158,22 +158,24 @@ const Background = styled.div`
 `;
 
 const Container = styled.div`
-  position: fixed;
-  left: 50%;
-  top: 25%;
-  transition: ${props => props.transition ? "top 0.2s cubic-bezier(0.075, 0.82, 0.165, 1)" : ""};
-  
-  top: ${props => props.transition ? "15%" : ""};
   transform: translateX(-50%);
   -webkit-transform:translateX(-50%);
+  position: fixed;
+  left: 50%;
+  top: 100%;
+  ${props => props.transition && css`
+    top: 15%;
+    transition: top 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  `}
+  
   padding: 1.3rem 1.7rem;
   border: 2px solid #401c2c;
   border-radius: 17px;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.8);
   background-color: #996178;
-  z-index: 1;
   cursor: pointer;
   width: fit-content;
+  z-index: 1;
 `;
 
 export default ContactFormContainer2;
