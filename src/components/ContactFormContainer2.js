@@ -47,9 +47,13 @@ const ContactFormContainer2 = () => {
     Auth.federatedSignIn({ provider: provider });
   }
 
-  // FormSubmit will automatically re-route to actual website after this function is called.
   function handleSubmitButton() {
-    addLeadToGraphQL();
+    //addLeadToGraphQL();
+    redirectToActualWebsite();
+  }
+  
+  function redirectToActualWebsite() {
+    
   }
 
   async function addLeadToGraphQL() {
@@ -81,46 +85,26 @@ const ContactFormContainer2 = () => {
     />;
   } else if (authorizedSSO) {
       if (!fetchCognitoComplete) {
-      element = <PhoneNumberForm Background={Background} loading={true} setPhone={setPhone} Container={Container} />
-      // Show popup but have loading symbol.
+        element = <PhoneNumberForm Background={Background} Container={Container} loading={true} setPhone={setPhone} handleSubmitButton={handleSubmitButton} />
+        // Show popup but have loading symbol.
       } else if (fetchCognitoComplete && !authenticatedUsingCognito) {
-      element = <PhoneNumberForm Background={Background} loading={false} setPhone={setPhone} errorMessage={""} errorMessage={"There was an error authenticating. Please try again"} />
-      // Have popup say "There was an error authenticating, please try again"
-      // set localStorage.setItem("authorizedSSO", "false")
-      // Set authorizedSSO to false, fetchCognitoComplete to false, authenticatedUsingCognito to false.
+        element = <PhoneNumberForm Background={Background} Container={Container} loading={false} setPhone={setPhone} handleSubmitButton={handleSubmitButton} errorMessage={""} errorMessage={"There was an error authenticating. Please try again"} />
+        // Have popup say "There was an error authenticating, please try again"
+        // set localStorage.setItem("authorizedSSO", "false")
+        // Set authorizedSSO to false, fetchCognitoComplete to false, authenticatedUsingCognito to false.
       } else if (fetchCognitoComplete && authenticatedUsingCognito) {
-      element = <PhoneNumberForm Background={Background} loading={false} setPhone={setPhone} errorMessage={""}/>
-      // Show popup, ask for phone number, save to DB, redirect to actual website
-    }
+        element = <PhoneNumberForm Background={Background} Container={Container} loading={false} setPhone={setPhone} handleSubmitButton={handleSubmitButton} errorMessage={""} />
+        // Show popup, ask for phone number, save to DB, redirect to actual website
+      } else if (fetchCognitoComplete && authenticatedUsingCognito && phone !== "") {
+        console.log("authorizedSSO is true and phone number isn't blank. Customer should have been redirected to actual website before making it to this condition. Redirecting...")
+        redirectToActualWebsite();
+      }
   }
   
-  // let element = null;
-  // if (!authorizedSSO) {
-  //     element = <ContactFormPopup3
-  //     name={name}
-  //     setName={setName}
-  //     setEmail={setEmail}
-  //     setPhone={setPhone}
-  //     handleSubmit={handleSubmitButton}
-  //   />;
-  // } else if (authorizedSSO) {
-  //   if (!fetchCognitoComplete) {
-  //     console.log("2")
-  //     element = <PhoneNumberForm loading={true} setPhone={setPhone} />
-  //     // Show popup but have loading symbol.
-  //   } else if (fetchCognitoComplete && !authenticatedUsingCognito) {
-  //     console.log("3")
-  //     element = <PhoneNumberForm loading={false} setPhone={setPhone} errorMessage={""} errorMessage={"There was an error authenticating. Please try again"} />
-  //     // Have popup say "There was an error authenticating, please try again"
-  //     // set localStorage.setItem("authorizedSSO", "false")
-  //     // Set authorizedSSO to false, fetchCognitoComplete to false, authenticatedUsingCognito to false.
-  //   } else if (fetchCognitoComplete && authenticatedUsingCognito) {
-  //     console.log("4")
-  //     element = <PhoneNumberForm loading={false} setPhone={setPhone} errorMessage={""}/>
-  //     // Show popup, ask for phone number, save to DB, redirect to actual website
-  //   }
-  // }
-
+  // element = <PhoneNumberForm Background={Background} Container={Container} loading={true} setPhone={setPhone} handleSubmitButton={handleSubmitButton} />
+  // element = <PhoneNumberForm Background={Background} Container={Container} loading={false} setPhone={setPhone} handleSubmitButton={handleSubmitButton} errorMessage={""} errorMessage={"There was an error authenticating. Please try again"} />
+  // element = <PhoneNumberForm Background={Background} Container={Container} loading={false} setPhone={setPhone} handleSubmitButton={handleSubmitButton} errorMessage={""} />
+  // element = null;
   return (
     <>
       <button
@@ -174,7 +158,7 @@ const Container = styled.div`
   border: 1px solid black;
   border-radius: 10px;
   padding: 0 1rem;
-  /* width: 80%; */
+  min-width: 17rem;
   
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.8);
   
