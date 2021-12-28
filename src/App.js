@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import abc from "./images/actual-website.jpg";
 import styled from "styled-components";
+import { ThemeProvider } from 'styled-components';
 import ContactFormPopup from "./components/ContactFormPopup";
 import ContactFormPopup2 from "./components/ContactFormPopup2";
 import ContactFormContainer from "./components/ContactFormContainer";
@@ -17,12 +18,18 @@ function App() {
   
   return (
     <>
-      <Image src={abc} />
+      <ThemeProvider theme={ColorTheme}>
+        <Image src={abc} />
       
-      {showPopup && <ContactFormContainer2 />}
+        {showPopup && <ContactFormContainer2 />}
+      </ThemeProvider>
     </>
   );
 }
+
+const ColorTheme = {
+  gray: "#E5E5E5"
+};
 
 const Image = styled.img`
   width: 100%;

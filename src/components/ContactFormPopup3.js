@@ -65,8 +65,7 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
 const TitleContainer = styled.div`
   margin: 0 auto;
   padding: 0;
-  /* border: 1px solid red; */
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${props => props.theme.gray};
   text-align: center;
 `;
 
@@ -78,13 +77,13 @@ const Title = styled.h3`
 const SingleSignOnContainer = styled.div`
   margin-top: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${props => props.theme.gray};
 `;
 
 const SingleSignOn = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid #E5E5E5;
+  border: 1px solid ${props => props.theme.gray};
   border-radius: 7px;
   padding: 0.5rem 1rem;
   width: 15rem;
