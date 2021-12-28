@@ -107,7 +107,7 @@ const ContactFormContainer2 = () => {
   // element = null;
   return (
     <>
-      <button
+      <SignOutButton
         onClick={async () => {
           localStorage.setItem("authorizedSSO", "false")
           await Auth.signOut()
@@ -115,19 +115,23 @@ const ContactFormContainer2 = () => {
           setFetchCognitoComplete(false);
           setAuthenticatedUsingCognito(false);
         }}
-      >
-        Sign out
-      </button>
+      >Sign out</SignOutButton>
+      
       <button
         onClick={() => localStorage.setItem("authorizedSSO", "false")}
-      >
-        Clear local storage
-      </button>
+      >Clear local storage</button>
 
       {element}
     </>
   );
 };
+
+const SignOutButton = styled.button`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2
+`;
 
 const Background = styled.div`
   position: fixed;
