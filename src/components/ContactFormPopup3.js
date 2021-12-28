@@ -42,9 +42,12 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
 
         {/* Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation */}
         <Form onSubmit={handleSubmit} action={`https://formsubmit.co/${email}`} method="POST">
-          <Input onChange={(e) => setName(e.target.value)} placeholder='First Name' type="text" name="first-name" required />
-          <Input onChange={(e) => setPhone(e.target.value)} placeholder='Phone Number' type="tel" name="tel" required />
-          <Input onChange={(e) => setEmail(e.target.value)} type="email" name="email" placeholder="Email Address" required />
+          <label for="name">Name:</label>
+          <Input onChange={(e) => setName(e.target.value)} id="name" placeholder='First Name' type="text" name="first-name" required />
+          <label for="email">Email:</label>
+          <Input onChange={(e) => setEmail(e.target.value)} id="email" placeholder="Email Address" type="email" name="email" required />
+          <label for="phone">Phone Number:</label>
+          <Input onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='Phone Number' type="tel" name="tel" required />
 
           {/* Removes reCaptcha */}
           <Input type="hidden" name="_captcha" value="false" />
@@ -122,9 +125,18 @@ const Text = styled.span`
 
 const Form = styled.form`
   margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* border: 1px solid red; */
+  height: 10rem;
+  /* padding: 1rem 0; */
 `;
 
 const Input = styled.input`
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid black;
 `;
 
 const Button = styled.button`

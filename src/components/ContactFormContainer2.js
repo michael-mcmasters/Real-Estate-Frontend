@@ -169,6 +169,7 @@ const Container = styled.div`
   `}
   
   background-color: white;
+  border: 1px solid black;
   border-radius: 10px;
   padding: 0 1rem;
   width: 80%;
