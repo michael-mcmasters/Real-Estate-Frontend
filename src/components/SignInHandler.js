@@ -6,9 +6,17 @@ import Dummy from "./Dummy";
 import ContactFormPopup3 from './ContactFormPopup3';
 import PhoneNumberForm from './PhoneNumberForm';
 
+const FetchState = {
+  NOT_INITIATED: "NOT_INITIATED",
+  FETCHING: "FETCHING",
+  SUCCESSFUL: "SUCCESSFUL",
+  FAILED: "FAILED"
+}
+
 const SignInHandler = () => {
   
   const [showPopup, setShowPopup] = useState(false);
+  const [cognitoFetchState, setCognitoFetchState] = useState(FetchState.NOT_INITIATED);
   
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -23,12 +31,35 @@ const SignInHandler = () => {
   useEffect(() => {
     const href = window.location.href
     if (!href.includes("authorizedSSO")) {
-      console.log(`User has not authorized SSO according to URL: ${href}`) 
+      console.log(`User has not authorized SSO - URL: ${href}`) 
       return;
     }
     console.log(`User authorized SSO`);
-    
+    getAuthorizedUser();
   }, [])
+  
+  function getAuthorizedUser() {
+    setCognitoFetchState(FetchState.FETCHING);
+    Auth.currentAuthenticatedUser()
+      .then(user => {
+        console.log("Found user in Cognito");
+        console.log("Name" + user.attributes.name);
+        console.log("Email" + user.attributes.email);
+        
+        setName(user.attributes.name);
+        setEmail(user.attributes.email);
+        setCognitoFetchState(FetchState.SUCCESSFUL);
+        
+      })
+      .catch(() => {
+        setCognitoFetchState(FetchState.FAILED);
+        console.log("User not signed in to Cognito or could not be found") 
+      })
+      .finally(() => {
+        console.log("Fetching Cognito complete");
+        //setFetchCognitoComplete(true)
+      });
+  }
   
   // Handles links / and /authorizedSSO
   
