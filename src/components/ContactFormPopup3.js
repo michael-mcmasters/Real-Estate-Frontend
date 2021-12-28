@@ -35,10 +35,7 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
             <Text>Continue with Google</Text>
           </SingleSignOn>
         </SingleSignOnContainer>
-        
 
-
-        {/* <FormTitle>Or enter your info</FormTitle> */}
         {/* Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation */}
         <Form onSubmit={handleSubmit} action={`https://formsubmit.co/${email}`} method="POST">
           <Label for="name">Name:</Label>
@@ -72,8 +69,7 @@ const TitleContainer = styled.div`
 `;
 
 const Title = styled.h3`
-  /* width: fit-content; */
-  /* padding-bottom: 1rem; */
+
 `;
 
 const SingleSignOnContainer = styled.div`
@@ -82,15 +78,16 @@ const SingleSignOnContainer = styled.div`
   border-bottom: 1px solid ${props => props.theme.gray};
 `;
 
-const SingleSignOn = styled.div`
+const SingleSignOn = styled.button`
   display: flex;
   align-items: center;
   border: 1px solid ${props => props.theme.gray};
   border-radius: 7px;
   padding: 0.5rem 1rem;
-  width: 15rem;
+  width: 17rem;
   margin: 0 auto;
   
+  font-size: 1rem;
   font-weight: 600;
   color: white;
   background-color: ${props => props.backgroundColor};
@@ -114,50 +111,25 @@ const GImage = styled.img`
   border-radius: 9999px;
 `;
 
-// const FImage = styled.img`
-//   width: 2.1rem;
-//   height: 2.1rem;
-//   background-color: white;
-//   border-radius: 9999px;
-// `;
-
-// const GImage = styled.img`
-//   width: 1.5rem;
-//   background-color: white;
-//   padding: 0.3rem;
-//   border-radius: 9999px;
-// `;
-
 const Text = styled.span`
   display: inline-block;
   margin: 0 auto;
-`;
-
-
-
-const FormTitle = styled.h5`
-  /* margin: 1rem auto; */
-  margin-left: 1rem;
-  width: fit-content;
 `;
 
 const Form = styled.form`
   margin: 1rem auto;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  /* border: 1px solid red; */
   width: 15rem;
 `;
 
 const Label = styled.label`
   font-weight: bold;
-  margin-bottom: 0.3rem;;
+  margin-bottom: 0.45rem;;
 `;
 
 const Input = styled.input`
   padding: 0.5rem;
-  /* border-radius: 8px; */
   border-radius: 4px;
   border: 1px solid black;
   margin-bottom: 1rem;
@@ -165,13 +137,13 @@ const Input = styled.input`
 
 const Button = styled.button`
   margin: 0.5rem auto;
-  padding: 0.75rem;
+  padding: 0.6rem 0.8rem;
   width: fit-content;
   font-weight: 600;
   color: white;
-  /* border: none; */
+  font-size: 1rem;
   border: 1px solid ${props => props.theme.gray};
-  border-radius: 10px;
+  border-radius: 7px;
   background-color: orange;
   
   &:hover {
