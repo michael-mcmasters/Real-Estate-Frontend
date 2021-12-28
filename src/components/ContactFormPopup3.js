@@ -29,7 +29,7 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
             <FImage src={FLogo} />
             <Text>Continue with Facebook</Text>
           </SingleSignOn>
-          
+          <br />
           <SingleSignOn backgroundColor={"#DF513F"}>
             <GImage src={GLogo} />
             <Text>Continue with Google</Text>
@@ -96,24 +96,37 @@ const SingleSignOn = styled.div`
   background-color: ${props => props.backgroundColor};
   
   &:hover {
-    opacity: 0.8;
+    opacity: 0.9;
     transition: 0.2s;
   }
 `;
 
 const FImage = styled.img`
-  width: 2.1rem;
-  height: 2.1rem;
+  width: 1.9rem;
   background-color: white;
   border-radius: 9999px;
 `;
 
 const GImage = styled.img`
-  width: 1.5rem;
+  width: 1.2rem;
   background-color: white;
   padding: 0.3rem;
   border-radius: 9999px;
 `;
+
+// const FImage = styled.img`
+//   width: 2.1rem;
+//   height: 2.1rem;
+//   background-color: white;
+//   border-radius: 9999px;
+// `;
+
+// const GImage = styled.img`
+//   width: 1.5rem;
+//   background-color: white;
+//   padding: 0.3rem;
+//   border-radius: 9999px;
+// `;
 
 const Text = styled.span`
   display: inline-block;
@@ -160,6 +173,11 @@ const Button = styled.button`
   border: 1px solid ${props => props.theme.gray};
   border-radius: 10px;
   background-color: orange;
+  
+  &:hover {
+    opacity: 0.9;
+    transition: 0.2s;
+  }
 `;
 
 export default ContactFormPopup3;
