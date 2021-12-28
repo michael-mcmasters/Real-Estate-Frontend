@@ -25,17 +25,17 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
         </TitleContainer>
 
         <SingleSignOnContainer>
-          <SingleSignOn backgroundColor={"#237CF3"}>
+          <SingleSignOn onClick={() => handleSSOSignIn("Facebook")} backgroundColor={"#237CF3"}>
             <FImage src={FLogo} />
             <Text>Continue with Facebook</Text>
           </SingleSignOn>
           <br />
-          <SingleSignOn backgroundColor={"#DF513F"}>
+          <SingleSignOn onClick={() => handleSSOSignIn("Google")} backgroundColor={"#DF513F"}>
             <GImage src={GLogo} />
             <Text>Continue with Google</Text>
           </SingleSignOn>
         </SingleSignOnContainer>
-
+        
         {/* Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation */}
         <Form onSubmit={handleSubmit} action={`https://formsubmit.co/${email}`} method="POST">
           <Label for="name">Name:</Label>

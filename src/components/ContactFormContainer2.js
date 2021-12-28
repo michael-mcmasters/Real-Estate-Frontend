@@ -6,7 +6,7 @@ import PhoneNumberForm from "./PhoneNumberForm";
 import styled, { css } from "styled-components";
 
 const ContactFormContainer2 = () => {
-  const [authorizedSSO, setauthorizedSSO] = useState(false);
+  const [authorizedSSO, setAuthorizedSSO] = useState(false);
   const [fetchCognitoComplete, setFetchCognitoComplete] = useState(false);
   const [authenticatedUsingCognito, setAuthenticatedUsingCognito] = useState(false);
   
@@ -21,7 +21,7 @@ const ContactFormContainer2 = () => {
     //localStorage.clear()
     const authorizedSSO = localStorage.getItem("authorizedSSO");
     if (authorizedSSO === "true") {
-      setauthorizedSSO(true);
+      setAuthorizedSSO(true);
       console.log("User authorized SSO. Fetching Cognito");
       Auth.currentAuthenticatedUser()
         .then(user => {
@@ -66,7 +66,7 @@ const ContactFormContainer2 = () => {
   }
   
   let element = null;
-  if (true) {
+  if (!authorizedSSO) {
       element = <ContactFormPopup3
       Background={Background}
       Container={Container}
@@ -77,16 +77,16 @@ const ContactFormContainer2 = () => {
       handleSSOSignIn={handleSSOSignIn}
       handleSubmit={handleSubmitButton}
     />;
-  } else if (true) {
+  } else if (authorizedSSO) {
     if (false) {
       element = <PhoneNumberForm Background={Background} loading={true} setPhone={setPhone} Container={Container} />
       // Show popup but have loading symbol.
-    } else if (false) {
+      } else if (fetchCognitoComplete && !authenticatedUsingCognito) {
       element = <PhoneNumberForm Background={Background} loading={false} setPhone={setPhone} errorMessage={""} errorMessage={"There was an error authenticating. Please try again"} />
       // Have popup say "There was an error authenticating, please try again"
       // set localStorage.setItem("authorizedSSO", "false")
       // Set authorizedSSO to false, fetchCognitoComplete to false, authenticatedUsingCognito to false.
-    } else if (false) {
+      } else if (fetchCognitoComplete && authenticatedUsingCognito) {
       element = <PhoneNumberForm Background={Background} loading={false} setPhone={setPhone} errorMessage={""}/>
       // Show popup, ask for phone number, save to DB, redirect to actual website
     }
@@ -123,10 +123,10 @@ const ContactFormContainer2 = () => {
     <>
       <button
         onClick={async () => {
-          await Auth.signOut()
           localStorage.setItem("authorizedSSO", "false")
-          setauthorizedSSO(false);
-          fetchCognitoComplete(false);
+          await Auth.signOut()
+          setAuthorizedSSO(false);
+          setFetchCognitoComplete(false);
           setAuthenticatedUsingCognito(false);
         }}
       >
