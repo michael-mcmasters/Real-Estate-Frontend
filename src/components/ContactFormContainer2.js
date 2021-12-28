@@ -39,6 +39,11 @@ const ContactFormContainer2 = () => {
       console.log(`authorizedSSO is false. Value from localStorage: ${authorizedSSO}`);
     }
   }, [])
+  
+  function handleSSOSignIn(provider) {
+    localStorage.setItem("authorizedSSO", "true");
+    Auth.federatedSignIn({ provider: provider });
+  }
 
   // FormSubmit will automatically re-route to actual website after this function is called.
   function handleSubmitButton() {
@@ -69,6 +74,7 @@ const ContactFormContainer2 = () => {
       setName={setName}
       setEmail={setEmail}
       setPhone={setPhone}
+      handleSSOSignIn={handleSSOSignIn}
       handleSubmit={handleSubmitButton}
     />;
   } else if (true) {
@@ -116,8 +122,8 @@ const ContactFormContainer2 = () => {
   return (
     <>
       <button
-        onClick={() => {
-          Auth.signOut();
+        onClick={async () => {
+          await Auth.signOut()
           localStorage.setItem("authorizedSSO", "false")
           setauthorizedSSO(false);
           fetchCognitoComplete(false);

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from "styled-components";
-import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
-import { createLead } from '../graphql/mutations'
 import GLogo from "../images/GLogo.png"
 
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
 
-const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, setPhone, handleSubmit }) => {
+const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, setPhone, handleSSOSignIn, handleSubmit }) => {
 
   const [transition, setTransition] = useState(false);
 
@@ -15,18 +13,13 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
     setTransition(true);
   }, []);
   
-  function handleSSOSignOn(provider) {
-    localStorage.setItem("authorizedSSO", "true");
-    Auth.federatedSignIn({ provider: provider });
-  }
-
   return (
     <>
       <Background transition={transition} />
 
       <Container transition={transition}>
 
-        <>
+        {/* <>
           <GoogleContainer>
             <GoogleImage src={GLogo} />
             <span>Continue with Google</span>
@@ -34,12 +27,10 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
           <div>
             <span>ToDo: Continue with Facebook</span>
           </div>
-        </>
+        </> */}
 
-        <button onClick={() => handleSSOSignOn("Google")} >Continue with Google</button>
-        <button onClick={() => handleSSOSignOn("Facebook")} >Continue with Facebook</button>
-        <button onClick={() => Auth.federatedSignIn()}>Normal Log In</button>
-        <button onClick={async () => await Auth.signOut()}>Sign Out</button>
+        <button onClick={() => handleSSOSignIn("Google")} >Continue with Google</button>
+        <button onClick={() => handleSSOSignIn("Facebook")} >Continue with Facebook</button>
 
         <Title>Please fill to continue</Title>
         {/* Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation */}
