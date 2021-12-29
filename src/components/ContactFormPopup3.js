@@ -6,13 +6,38 @@ import FLogo from "../images/FLogo.png"
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
 
-const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, setPhone, handleSSOSignIn, handleSubmit }) => {
+const ContactFormPopup3 = ({ Background, Container, showSSOOptions, name, setName, setEmail, setPhone, handleSSOSignIn, handleSubmit }) => {
 
   const [transition, setTransition] = useState(false);
 
   useEffect(() => {
     setTransition(true);
   }, []);
+  
+  let ssoOptions;
+  if (showSSOOptions) {
+    ssoOptions = (
+      <SingleSignOnContainer>
+        <SingleSignOn onClick={() => handleSSOSignIn("Facebook")} backgroundColor={"#237CF3"}>
+          <FImage src={FLogo} />
+          <Text>Continue with Facebook</Text>
+        </SingleSignOn>
+        <br />
+        <SingleSignOn onClick={() => handleSSOSignIn("Google")} backgroundColor={"#DF513F"}>
+          <GImage src={GLogo} />
+          <Text>Continue with Google</Text>
+        </SingleSignOn>
+      </SingleSignOnContainer>
+    );
+  } else {
+    ssoOptions = (
+      <SingleSignOnErrorContainer>
+        There was an error logging in.
+        <br />
+        Please fill the form to continue.
+      </SingleSignOnErrorContainer>
+    )
+  }
   
   return (
     <>
@@ -24,17 +49,7 @@ const ContactFormPopup3 = ({ Background, Container, name, setName, setEmail, set
           <Title>Get instant access to these great properties</Title>
         </TitleContainer>
 
-        <SingleSignOnContainer>
-          <SingleSignOn onClick={() => handleSSOSignIn("Facebook")} backgroundColor={"#237CF3"}>
-            <FImage src={FLogo} />
-            <Text>Continue with Facebook</Text>
-          </SingleSignOn>
-          <br />
-          <SingleSignOn onClick={() => handleSSOSignIn("Google")} backgroundColor={"#DF513F"}>
-            <GImage src={GLogo} />
-            <Text>Continue with Google</Text>
-          </SingleSignOn>
-        </SingleSignOnContainer>
+        {ssoOptions}
         
         {/* Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation */}
         <Form onSubmit={handleSubmit} action={`https://formsubmit.co/${email}`} method="POST">
@@ -76,6 +91,14 @@ const SingleSignOnContainer = styled.div`
   margin-top: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid ${props => props.theme.gray};
+`;
+
+const SingleSignOnErrorContainer = styled.div`
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid ${props => props.theme.gray};
+  /* width: fit-content; */
+  text-align: center;
 `;
 
 const SingleSignOn = styled.button`
