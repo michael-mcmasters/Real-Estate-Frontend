@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from "styled-components";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 const PhoneNumberForm = ({ Background, Container, loading, setPhone, handleSubmitButton, errorMessage}) => {
 
+  const phoneInputElement = useRef(null);
+  const continueButtonElement = useRef(null);
+  
+  useEffect(() => {
+    const inputFieldKeyListener = (event) => {
+      if (event.keyCode === 13) {       // Enter
+        // continueButtonElement.current.click();
+      } else if (event.keyCode === 27) {                        // Escape
+        phoneInputElement.current.blur();
+      }
+    }
+    document.addEventListener("keydown", inputFieldKeyListener);
+
+    return () => document.removeEventListener("keydown", inputFieldKeyListener);
+  }, [])
+  
   let element = null;
   if (loading) {
     element = (
@@ -27,8 +43,8 @@ const PhoneNumberForm = ({ Background, Container, loading, setPhone, handleSubmi
         
         <FormContainer>
           <Label for="phone">Phone:</Label>
-          <Input onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" required />
-          <Button onClick={handleSubmitButton}>Continue</Button>
+          <Input ref={phoneInputElement} onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" required />
+          <Button ref={continueButtonElement} onClick={handleSubmitButton}>Continue</Button>
         </FormContainer>
       </>
     )
