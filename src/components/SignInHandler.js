@@ -31,7 +31,7 @@ const SignInHandler = () => {
   useEffect(() => {
     const href = window.location.href
     if (!href.includes("authorizedSSO")) {
-      console.log(`User has not authorized SSO - URL: ${href}`) 
+      console.log(`User is not on /authorizedSSO page`);
       return;
     }
     console.log(`User authorized SSO`);
@@ -41,15 +41,23 @@ const SignInHandler = () => {
   function getAuthorizedUser() {
     setCognitoFetchState(FetchState.FETCHING);
     Auth.currentAuthenticatedUser()
-      .then(user => {
+      .then(cognitoUser => {
         console.log("Found user in Cognito");
-        console.log("Name " + user.attributes.name);
-        console.log("Email " + user.attributes.email);
         
-        setName(user.attributes.name);
-        setEmail(user.attributes.email);
+        let name = "";
+        if (cognitoUser.username.includes("Google")) {
+          name = cognitoUser.attributes.name;
+        } else if (cognitoUser.username.includes("Facebook")) {
+          name = cognitoUser.attributes.name + " ";
+          name += cognitoUser.attributes[`family_name`];
+        } else {
+          console.warn("Cognito username does not contain Google nor Facebook")
+          name = cognitoUser.username;
+        }
+        
+        setName(name);
+        setEmail(cognitoUser.attributes.email);
         setCognitoFetchState(FetchState.SUCCESSFUL);
-        
       })
       .catch(() => {
         setCognitoFetchState(FetchState.FAILED);
@@ -65,7 +73,6 @@ const SignInHandler = () => {
   }
   
   function handleSSOSignIn(provider) {
-    // localStorage.setItem("authorizedSSO", "true");
     console.log("SIGNED IN")
     Auth.federatedSignIn({ provider: provider });
   }
@@ -91,7 +98,6 @@ const SignInHandler = () => {
           await Auth.signOut()
         }}
       >SignOut</SignOutButton>
-      {/* <BrowserRouter> */}
         <Routes>
           <Route path="/" element={
             <>
@@ -122,7 +128,6 @@ const SignInHandler = () => {
             </>
           } />
         </Routes>
-      {/* </BrowserRouter> */}
     </>
   );
 };
