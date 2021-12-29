@@ -29,16 +29,15 @@ const SignInHandler = () => {
   }, [showInitialPopup]);
   
   useEffect(() => {
-    const href = window.location.href
-    if (!href.includes("authorizedSSO")) {
-      console.log(`User is not on /authorizedSSO page`);
-      return;
+    if (window.location.href.includes("authorizedSSO")) {
+      console.log("On /authorizedSSO page");
+      fetchAuthorizedUser();
+    } else {
+      console.log("Not on /authorizedSSO page");
     }
-    console.log(`User authorized SSO`);
-    getAuthorizedUser();
   }, [])
   
-  function getAuthorizedUser() {
+  function fetchAuthorizedUser() {
     setCognitoFetchState(FetchState.FETCHING);
     Auth.currentAuthenticatedUser()
       .then(cognitoUser => {
