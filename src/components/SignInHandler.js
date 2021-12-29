@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
-import { BrowserRouter, Routes, Route, useSearchParams } from "react-router-dom";
+import { createLead } from '../graphql/mutations'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled, { css } from "styled-components";
-import Dummy from "./Dummy";
 import ContactFormPopup3 from './ContactFormPopup3';
 import PhoneNumberForm from './PhoneNumberForm';
 
@@ -66,29 +66,38 @@ const SignInHandler = () => {
         // Can either redirect to real website, or sign user out and foce them to do it all again.
         // Possibly hide SSO buttons. Maybe route to a "/hideSSO"
       })
-      .finally(() => {
-        console.log("Fetching Cognito complete");
-        //setFetchCognitoComplete(true)
-      });
   }
   
   function handleSSOSignIn(provider) {
-    console.log("SIGNED IN")
     Auth.federatedSignIn({ provider: provider });
   }
 
   function HandleContactFormSubmit() {
-    //addLeadToGraphQL();
+    addLeadToDatabase();
     redirectToActualWebsite();
   }
   
   function handlePhoneNumberFormSubmit() {
-    //addLeadToGraphQL();
+    addLeadToDatabase();
     redirectToActualWebsite();
   }
 
+  async function addLeadToDatabase() {
+    try {
+      const lead = {
+        firstName: name,
+        lastName: "",
+        phone: phone,
+        email: email
+      }
+      await API.graphql(graphqlOperation(createLead, { input: lead }))
+      console.log("New lead added to database");
+    } catch (err) {
+      console.log("Adding lead to database did not work. Error: " + err);
+    }
+  }
+  
   function redirectToActualWebsite() {
-    console.log("called")
     window.location.assign('https://katlynmcmasters.foxroach.com/');
   }
   
