@@ -130,11 +130,12 @@ const SignInHandler = () => {
         />
       );
     } else {
+      const loading = cognitoFetchState === FetchState.NOT_INITIATED || cognitoFetchState === FetchState.FETCHING;
       return (
         <PhoneNumberForm
           Background={Background}
           Container={Container}
-          loading={cognitoFetchState === FetchState.FETCHING ? true : false}
+          loading={loading}
           setPhone={setPhone}
           handleSubmitButton={handlePhoneNumberFormSubmit}
         />
