@@ -64,29 +64,24 @@ const SignInHandler = () => {
       });
   }
   
-  // Handles links / and /authorizedSSO
-  
-  // On /
-    // Wait a few seconds, have popup appear
-    // If use authorizes with SSO, go to /authorizedSSO
-    // If user submits normal form, redirect to actual website
-  // On /authorizedSSO
-    // Ask for phone number
-    // Redirect to actual website
-  
   function handleSSOSignIn(provider) {
     // localStorage.setItem("authorizedSSO", "true");
     console.log("SIGNED IN")
     Auth.federatedSignIn({ provider: provider });
   }
 
-  function handleSubmitButton() {
+  function HandleContactFormSubmit() {
     //addLeadToGraphQL();
-    //redirectToActualWebsite();
+    redirectToActualWebsite();
+  }
+  
+  function handlePhoneNumberFormSubmit() {
+    //addLeadToGraphQL();
+    redirectToActualWebsite();
   }
 
   function redirectToActualWebsite() {
-    //window.location.assign('https://katlynmcmasters.foxroach.com/');
+    window.location.assign('https://katlynmcmasters.foxroach.com/');
   }
   
   return (
@@ -109,20 +104,20 @@ const SignInHandler = () => {
                   setEmail={setEmail}
                   setPhone={setPhone}
                   handleSSOSignIn={handleSSOSignIn}
-                  handleSubmit={handleSubmitButton}
+                  handleSubmit={HandleContactFormSubmit}
                 />
               }
             </>
           } />
           <Route path="/authorizedSSO" element={
             <>
-            <PhoneNumberForm
-              Background={Background}
-              Container={Container}
-              loading={cognitoFetchState === FetchState.FETCHING ? true : false}
-              setPhone={setPhone}
-              handleSubmitButton={handleSubmitButton}
-            />
+              <PhoneNumberForm
+                Background={Background}
+                Container={Container}
+                loading={cognitoFetchState === FetchState.FETCHING ? true : false}
+                setPhone={setPhone}
+                handleSubmitButton={handlePhoneNumberFormSubmit}
+              />
             </>
           } />
         </Routes>
