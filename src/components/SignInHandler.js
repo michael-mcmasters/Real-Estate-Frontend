@@ -43,8 +43,8 @@ const SignInHandler = () => {
     Auth.currentAuthenticatedUser()
       .then(user => {
         console.log("Found user in Cognito");
-        console.log("Name" + user.attributes.name);
-        console.log("Email" + user.attributes.email);
+        console.log("Name " + user.attributes.name);
+        console.log("Email " + user.attributes.email);
         
         setName(user.attributes.name);
         setEmail(user.attributes.email);
@@ -53,7 +53,10 @@ const SignInHandler = () => {
       })
       .catch(() => {
         setCognitoFetchState(FetchState.FAILED);
-        console.log("User not signed in to Cognito or could not be found") 
+        console.log("User not signed in to Cognito or could not be found");
+        // ToDo: This means not getting name, email or phone.
+        // Can either redirect to real website, or sign user out and foce them to do it all again.
+        // Possibly hide SSO buttons. Maybe route to a "/hideSSO"
       })
       .finally(() => {
         console.log("Fetching Cognito complete");
@@ -85,7 +88,7 @@ const SignInHandler = () => {
   function redirectToActualWebsite() {
     //window.location.assign('https://katlynmcmasters.foxroach.com/');
   }
-    
+  
   return (
     <>
       <SignOutButton onClick={async () => {
@@ -113,13 +116,13 @@ const SignInHandler = () => {
           } />
           <Route path="/authorizedSSO" element={
             <>
-              <PhoneNumberForm
-                Background={Background}
-                Container={Container}
-                loading={true}
-                setPhone={setPhone}
-                handleSubmitButton={handleSubmitButton}
-              />
+            <PhoneNumberForm
+              Background={Background}
+              Container={Container}
+              loading={cognitoFetchState === FetchState.FETCHING ? true : false}
+              setPhone={setPhone}
+              handleSubmitButton={handleSubmitButton}
+            />
             </>
           } />
         </Routes>
