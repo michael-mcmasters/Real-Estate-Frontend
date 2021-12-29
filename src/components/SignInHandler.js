@@ -15,7 +15,7 @@ const FetchState = {
 
 const SignInHandler = () => {
   
-  const [showPopup, setShowPopup] = useState(false);
+  const [showInitialPopup, setShowInitialPopup] = useState(false);
   const [cognitoFetchState, setCognitoFetchState] = useState(FetchState.NOT_INITIATED);
   
   const [name, setName] = useState("");
@@ -24,9 +24,9 @@ const SignInHandler = () => {
   
   useEffect(() => {
     setTimeout(() => {
-      setShowPopup(true);
+      setShowInitialPopup(true);
     }, 750)
-  }, [showPopup]);
+  }, [showInitialPopup]);
   
   useEffect(() => {
     const href = window.location.href
@@ -60,11 +60,8 @@ const SignInHandler = () => {
         setCognitoFetchState(FetchState.SUCCESSFUL);
       })
       .catch(() => {
-        setCognitoFetchState(FetchState.FAILED);
         console.log("User not signed in to Cognito or could not be found");
-        // ToDo: This means not getting name, email or phone.
-        // Can either redirect to real website, or sign user out and foce them to do it all again.
-        // Possibly hide SSO buttons. Maybe route to a "/hideSSO"
+        setCognitoFetchState(FetchState.FAILED);
       })
   }
   
@@ -80,63 +77,88 @@ const SignInHandler = () => {
   function handlePhoneNumberFormSubmit() {
     addLeadToDatabase();
     redirectToActualWebsite();
+    // ToDo: Manually send email.
   }
 
   async function addLeadToDatabase() {
-    try {
-      const lead = {
-        firstName: name,
-        lastName: "",
-        phone: phone,
-        email: email
-      }
-      await API.graphql(graphqlOperation(createLead, { input: lead }))
-      console.log("New lead added to database");
-    } catch (err) {
-      console.log("Adding lead to database did not work. Error: " + err);
-    }
+    // try {
+    //   const lead = {
+    //     firstName: name,
+    //     lastName: "",
+    //     phone: phone,
+    //     email: email
+    //   }
+    //   await API.graphql(graphqlOperation(createLead, { input: lead }))
+    //   console.log("New lead added to database");
+    // } catch (err) {
+    //   console.log("Adding lead to database did not work. Error: " + err);
+    // }
   }
   
   function redirectToActualWebsite() {
     window.location.assign('https://katlynmcmasters.foxroach.com/');
   }
   
+  function getInitialPopup() {
+    return (
+      <ContactFormPopup3
+        Background={Background}
+        Container={Container}
+        showSSOOptions={true}
+        name={name}
+        setName={setName}
+        setEmail={setEmail}
+        setPhone={setPhone}
+        handleSSOSignIn={handleSSOSignIn}
+        handleSubmit={HandleContactFormSubmit}
+      />
+    )
+  }
+  
+  function getSecondPopup(cognitoFetchState) {
+    if (cognitoFetchState === FetchState.FAILED || cognitoFetchState === null) {    // Should never be null but just in case
+      return (
+        <ContactFormPopup3
+          Background={Background}
+          Container={Container}
+          showSSOOptions={false}
+          name={name}
+          setName={setName}
+          setEmail={setEmail}
+          setPhone={setPhone}
+          handleSSOSignIn={handleSSOSignIn}
+          handleSubmit={HandleContactFormSubmit}
+        />
+      );
+    } else {
+      return (
+        <PhoneNumberForm
+          Background={Background}
+          Container={Container}
+          loading={cognitoFetchState === FetchState.FETCHING ? true : false}
+          setPhone={setPhone}
+          handleSubmitButton={handlePhoneNumberFormSubmit}
+        />
+      )
+    }
+  }
+  
   return (
     <>
-      <SignOutButton onClick={async () => {
-          await Auth.signOut()
-        }}
-      >SignOut</SignOutButton>
-        <Routes>
-          <Route path="/" element={
-            <>
-              {
-                showPopup &&
-                <ContactFormPopup3
-                  Background={Background}
-                  Container={Container}
-                  name={name}
-                  setName={setName}
-                  setEmail={setEmail}
-                  setPhone={setPhone}
-                  handleSSOSignIn={handleSSOSignIn}
-                  handleSubmit={HandleContactFormSubmit}
-                />
-              }
-            </>
-          } />
-          <Route path="/authorizedSSO" element={
-            <>
-              <PhoneNumberForm
-                Background={Background}
-                Container={Container}
-                loading={cognitoFetchState === FetchState.FETCHING ? true : false}
-                setPhone={setPhone}
-                handleSubmitButton={handlePhoneNumberFormSubmit}
-              />
-            </>
-          } />
-        </Routes>
+      <SignOutButton onClick={async () => await Auth.signOut()}>Sign Out</SignOutButton>
+      
+      <Routes>
+        <Route path="/" element={
+          <>
+            {showInitialPopup && getInitialPopup()}
+          </>
+        } />
+        <Route path="/authorizedSSO" element={
+          <>
+            {getSecondPopup(cognitoFetchState)}
+          </>
+        } />
+      </Routes>
     </>
   );
 };
