@@ -51,7 +51,7 @@ const ContactFormPopupHandler = () => {
           name = cognitoUser.attributes.name + " ";
           name += cognitoUser.attributes[`family_name`];
         } else {
-          console.warn("Cognito username does not contain Google nor Facebook")
+          console.warn("Cognito username does not contain Google nor Facebook");
           name = cognitoUser.username;
         }
         
@@ -65,10 +65,12 @@ const ContactFormPopupHandler = () => {
       })
   }
   
+  // AWS Cognito will automatically redirect to "/authorizedSSO" after this function is called
   function handleSSOSignIn(provider) {
     Auth.federatedSignIn({ provider: provider });
   }
 
+  // If this function is called, user filled out needed info instead of signing in with SSO. Redirects to actual website
   function HandleContactFormSubmit() {
     addLeadToDatabase();
     redirectToActualWebsite();
