@@ -1,17 +1,18 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from "styled-components";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-const PhoneNumberForm = ({ Background, Container, loading, setPhone, handleSubmitButton, errorMessage}) => {
+const PhoneNumberForm = ({ Background, Container, loading, setPhone, handleSubmitButton}) => {
 
   const phoneInputElement = useRef(null);
   const continueButtonElement = useRef(null);
+  const [errorMessage, setErrorMessage] = useState("");
   
   useEffect(() => {
     const inputFieldKeyListener = (event) => {
-      if (event.keyCode === 13) {       // Enter
-        // continueButtonElement.current.click();
+      if (event.keyCode === 13) {                               // Enter
+        continueButtonElement.current.click();
       } else if (event.keyCode === 27) {                        // Escape
         phoneInputElement.current.blur();
       }
@@ -19,7 +20,23 @@ const PhoneNumberForm = ({ Background, Container, loading, setPhone, handleSubmi
     document.addEventListener("keydown", inputFieldKeyListener);
 
     return () => document.removeEventListener("keydown", inputFieldKeyListener);
-  }, [])
+  }, []);
+  
+  function handleSubmit() {
+    const value = phoneInputElement.current.value;
+    const containsLetters = (value) => /[a-zA-Z]/.test(value);
+    
+    if (value === "") {
+      setErrorMessage("Field can not be empty");
+    } else if (containsLetters(value)) {
+      setErrorMessage("Field should only contain numbers")
+    } else if (value.toString().length < 10) {
+      setErrorMessage("Number must be 10 digits long");
+    } else {
+      setErrorMessage("");
+      handleSubmitButton();
+    }
+  }
   
   let element = null;
   if (loading) {
@@ -38,13 +55,15 @@ const PhoneNumberForm = ({ Background, Container, loading, setPhone, handleSubmi
           One more thing
         </Title>
         <ContentText>
-          Please enter your phone number.          
+          Please enter your phone number.
+          <br />        
+          {errorMessage}
         </ContentText>
         
         <FormContainer>
           <Label for="phone">Phone:</Label>
-          <Input ref={phoneInputElement} onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" required />
-          <Button ref={continueButtonElement} onClick={handleSubmitButton}>Continue</Button>
+          <Input ref={phoneInputElement} pressedContinueWithoutNumber={errorMessage !== ""} onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" required />
+          <Button ref={continueButtonElement} onClick={handleSubmit}>Continue</Button>
         </FormContainer>
       </>
     )
@@ -68,7 +87,6 @@ const Title = styled.h3`
 const LoaderContainer = styled.div`
   margin: 0 auto;
   width: fit-content;
-  /* border: 1px solid red; */
 `;
 
 const ContentText = styled.p`
@@ -93,6 +111,7 @@ const Input = styled.input`
   border-radius: 4px;
   border: 1px solid black;
   margin-bottom: 1rem;
+  background-color: ${props => props.pressedContinueWithoutNumber ? "#F289A7" : ""};
 `;
 
 const Button = styled.button`
