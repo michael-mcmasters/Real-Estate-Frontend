@@ -51,8 +51,8 @@ const ContactFormPopupHandler = () => {
           name = cognitoUser.attributes.name + " ";
           name += cognitoUser.attributes[`family_name`];
         } else {
-          console.warn("Cognito username does not contain Google nor Facebook");
-          name = cognitoUser.username;
+          console.warn("Unsure if Cognito user is from Google or from Facebook, so may not be getting their last name properly");
+          name = cognitoUser.name;
         }
         
         setName(name);
