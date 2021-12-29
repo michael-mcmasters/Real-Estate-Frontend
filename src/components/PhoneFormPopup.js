@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-const PhoneNumberForm = ({ Background, Container, loading, setPhone, handleSubmitButton}) => {
+const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmitButton}) => {
 
   const phoneInputElement = useRef(null);
   const continueButtonElement = useRef(null);
@@ -131,4 +131,4 @@ const Button = styled.button`
   }
 `;
 
-export default PhoneNumberForm;
+export default PhoneFormPopup;

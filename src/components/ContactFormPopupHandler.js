@@ -3,8 +3,8 @@ import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
 import { createLead } from '../graphql/mutations'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled, { css } from "styled-components";
-import ContactFormPopup3 from './ContactFormPopup3';
-import PhoneNumberForm from './PhoneNumberForm';
+import ContactFormPopup from './ContactFormPopup';
+import PhoneFormPopup from './PhoneFormPopup';
 
 const FetchState = {
   NOT_INITIATED: "NOT_INITIATED",
@@ -13,7 +13,7 @@ const FetchState = {
   FAILED: "FAILED"
 }
 
-const SignInHandler = () => {
+const ContactFormPopupHandler = () => {
   
   const [showInitialPopup, setShowInitialPopup] = useState(false);
   const [cognitoFetchState, setCognitoFetchState] = useState(FetchState.NOT_INITIATED);
@@ -28,16 +28,17 @@ const SignInHandler = () => {
     }, 750)
   }, [showInitialPopup]);
   
+  // When user signs in with Facebook / Google, browser redirects to "/authorizedSSO". This checks if currently on that page
   useEffect(() => {
     if (window.location.href.includes("authorizedSSO")) {
       console.log("On /authorizedSSO page");
-      fetchAuthorizedUser();
+      fetchUserFromCognito();
     } else {
       console.log("Not on /authorizedSSO page");
     }
   }, [])
   
-  function fetchAuthorizedUser() {
+  function fetchUserFromCognito() {
     setCognitoFetchState(FetchState.FETCHING);
     Auth.currentAuthenticatedUser()
       .then(cognitoUser => {
@@ -100,7 +101,7 @@ const SignInHandler = () => {
   
   function getInitialPopup() {
     return (
-      <ContactFormPopup3
+      <ContactFormPopup
         Background={Background}
         Container={Container}
         showSSOOptions={true}
@@ -117,7 +118,7 @@ const SignInHandler = () => {
   function getSecondPopup(cognitoFetchState) {
     if (cognitoFetchState === FetchState.FAILED || cognitoFetchState === null) {    // Should never be null but just in case
       return (
-        <ContactFormPopup3
+        <ContactFormPopup
           Background={Background}
           Container={Container}
           showSSOOptions={false}
@@ -132,7 +133,7 @@ const SignInHandler = () => {
     } else {
       const loading = cognitoFetchState === FetchState.NOT_INITIATED || cognitoFetchState === FetchState.FETCHING;
       return (
-        <PhoneNumberForm
+        <PhoneFormPopup
           Background={Background}
           Container={Container}
           loading={loading}
@@ -208,4 +209,4 @@ const Container = styled.div`
   z-index: 1;
 `;
 
-export default SignInHandler;
+export default ContactFormPopupHandler;

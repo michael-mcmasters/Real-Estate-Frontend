@@ -1,148 +1,178 @@
 import React, { useState, useEffect } from 'react';
-import styled from "styled-components";
-import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
-import { createLead } from '../graphql/mutations'
+import styled, { css } from "styled-components";
+import GLogo from "../images/GLogo.png"
+import FLogo from "../images/FLogo.png"
 
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
 
-const ContactFormPopup = () => {
+const ContactFormPopup = ({ Background, Container, showSSOOptions, name, setName, setEmail, setPhone, handleSSOSignIn, handleSubmit }) => {
 
-  const [backgroundBlur, setBackgroundBlur] = useState("0px");
-  const [topHeight, setTopHeight] = useState('100%');
-  
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumer] = useState("");
-  const [userEmail, setUserEmail] = useState("");
+  const [transition, setTransition] = useState(false);
 
   useEffect(() => {
-    setBackgroundBlur("6px");
-    setTopHeight("15%");
+    setTransition(true);
   }, []);
   
-  function checkUser() {
-    Auth.currentAuthenticatedUser().then(cognitoUser => {
-      console.log(cognitoUser);
-      console.log(cognitoUser.attributes.email);
-      console.log(cognitoUser.attributes.name);
-    })
+  let ssoOptions;
+  if (showSSOOptions) {
+    ssoOptions = (
+      <SingleSignOnContainer>
+        <SingleSignOn onClick={() => handleSSOSignIn("Facebook")} backgroundColor={"#237CF3"}>
+          <FImage src={FLogo} />
+          <Text>Continue with Facebook</Text>
+        </SingleSignOn>
+        <br />
+        <SingleSignOn onClick={() => handleSSOSignIn("Google")} backgroundColor={"#DF513F"}>
+          <GImage src={GLogo} />
+          <Text>Continue with Google</Text>
+        </SingleSignOn>
+      </SingleSignOnContainer>
+    );
+  } else {
+    ssoOptions = (
+      <SingleSignOnErrorContainer>
+        There was an error logging in.
+        <br />
+        Please fill the form to continue.
+      </SingleSignOnErrorContainer>
+    )
   }
-
-  function capitalizeFirstLetter(name) {
-    if (name == null && name == undefined) return;
-
-    if (name.length > 1) {
-      return name.charAt(0).toUpperCase() + name.slice(1);
-    } else {
-      return name.charAt(0).toUpperCase();
-    }
-  }
-
-  async function addLeadToGraphQL() {
-    try {
-      const person = {
-        firstName,
-        lastName,
-        phone: phoneNumber,
-        email: userEmail
-      }
-      await API.graphql(graphqlOperation(createLead, { input: person }))
-      console.log("New lead added to GraphQL");
-    } catch (err) {
-      console.log("Adding lead to GraphQL did not work. Error: " + err);
-    }
-  }
-
-  // Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation
+  
   return (
     <>
-      <Background backgroundBlur={backgroundBlur} />
-      
-      <Container topHeight={topHeight}>
-        <button onClick={() => Auth.federatedSignIn({ provider: "Google" })} >Continue with Google</button>
-        <button onClick={() => Auth.federatedSignIn()}>Normal Log In</button>
-        <button onClick={async () => await Auth.signOut()}>Sign Out</button>
-        <button onClick={checkUser}>Check User</button>
-        
-        <Title>Please fill to continue</Title>
-        <Form onSubmit={addLeadToGraphQL} action={`https://formsubmit.co/${email}`} method="POST">
-          <Input onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' type="text" name="first-name" required />
-          <Input onChange={(e) => setLastName(e.target.value)} placeholder='Last Name' type="text" name="last-name" required />
-          <Input onChange={(e) => setPhoneNumer(e.target.value)} placeholder='Phone Number' type="tel" name="tel" required />
-          <Input onChange={(e) => setUserEmail(e.target.value)} type="email" name="email" placeholder="Email Address" required />
+      <Background transition={transition} />
 
+      <Container transition={transition}>
+        
+        <TitleContainer>
+          <Title>Get instant access to these great properties</Title>
+        </TitleContainer>
+
+        {ssoOptions}
+        
+        {/* Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation */}
+        <Form onSubmit={handleSubmit} action={`https://formsubmit.co/${email}`} method="POST">
+          <Label for="name">Name:</Label>
+          <Input onChange={(e) => setName(e.target.value)} id="name" placeholder='First and last name' type="text" name="name" required />
+          <Label for="email">Email:</Label>
+          <Input onChange={(e) => setEmail(e.target.value)} id="email" placeholder="email@domain.com" type="email" name="email" required />
+          <Label for="phone">Phone:</Label>
+          <Input onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" required />
+
+          {/* Removes reCaptcha */}
+          <Input type="hidden" name="_captcha" value="false" />
           {/* Goes to this link on submit */}
           <Input type="hidden" name="_next" value="https://130bernicedr.go2frr.com/index.html" />
           {/* Tricks bots to avoid spam */}
           <Input type="text" name="_honey" style={{ display: "none" }} />
           {/* Subject of email */}
-          <Input type="hidden" name="_subject" value={`New Lead! - ${capitalizeFirstLetter(firstName)} ${capitalizeFirstLetter(lastName)}`} />
+          <Input type="hidden" name="_subject" value={`New Lead! - ${name}`} />
           {/* Sends email */}
-          <Button type="submit" onSubmitCapture={addLeadToGraphQL} onSubmit={addLeadToGraphQL}>Continue</Button>
+          <Button type="submit">Continue</Button>
         </Form>
       </Container>
     </>
   );
 };
 
-const Background = styled.div`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 100vh;
-  backdrop-filter: blur(${props => props.backgroundBlur});
-  transition: backdrop-filter 0.2s;
-  
-  z-index: 1;
-`;
-
-const Container = styled.div`
-  position: fixed;
-  left: 50%;
-  top: 25%;
-  transition: top 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
-  
-  top: ${props => props.topHeight};
-  transform: translateX(-50%);
-  -webkit-transform:translateX(-50%);
-  padding: 1.3rem 1.7rem;
-  border: 2px solid #401c2c;
-  border-radius: 17px;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.8);
-  background-color: #996178;
-  z-index: 1;
-  cursor: pointer;
-  width: fit-content;
+const TitleContainer = styled.div`
+  margin: 0 auto;
+  padding: 0;
+  border-bottom: 1px solid ${props => props.theme.gray};
+  text-align: center;
 `;
 
 const Title = styled.h3`
+
+`;
+
+const SingleSignOnContainer = styled.div`
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid ${props => props.theme.gray};
+`;
+
+const SingleSignOnErrorContainer = styled.div`
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid ${props => props.theme.gray};
+  /* width: fit-content; */
+  text-align: center;
+`;
+
+const SingleSignOn = styled.button`
+  display: flex;
+  align-items: center;
+  border: 1px solid ${props => props.theme.gray};
+  border-radius: 7px;
+  padding: 0.5rem 1rem;
+  width: 17rem;
   margin: 0 auto;
-  width: fit-content;
+  
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: ${props => props.backgroundColor};
+  
+  &:hover {
+    opacity: 0.9;
+    transition: 0.2s;
+  }
+`;
+
+const FImage = styled.img`
+  width: 1.9rem;
+  background-color: white;
+  border-radius: 9999px;
+`;
+
+const GImage = styled.img`
+  width: 1.2rem;
+  background-color: white;
+  padding: 0.3rem;
+  border-radius: 9999px;
+`;
+
+const Text = styled.span`
+  display: inline-block;
+  margin: 0 auto;
 `;
 
 const Form = styled.form`
+  margin: 1rem auto;
   display: flex;
   flex-direction: column;
-  max-width: 10rem;
-  margin-top: 0.7rem;
-  margin-left: auto;
-  margin-right: auto;
+  width: 15rem;
+`;
+
+const Label = styled.label`
+  font-weight: bold;
+  margin-bottom: 0.45rem;;
 `;
 
 const Input = styled.input`
-  margin: 0.75rem;
   padding: 0.5rem;
-  border-radius: 8px;
+  border-radius: 4px;
   border: 1px solid black;
+  margin-bottom: 1rem;
 `;
 
 const Button = styled.button`
-  margin: 0.75rem;
-  margin-top: 1rem;
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid black;
+  margin: 0.5rem auto;
+  padding: 0.6rem 0.8rem;
+  width: fit-content;
+  font-weight: 600;
+  color: white;
+  font-size: 1rem;
+  border: 1px solid ${props => props.theme.gray};
+  border-radius: 7px;
+  background-color: orange;
+  
+  &:hover {
+    opacity: 0.9;
+    transition: 0.2s;
+  }
 `;
 
 export default ContactFormPopup;

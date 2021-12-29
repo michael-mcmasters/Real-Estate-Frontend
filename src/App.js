@@ -3,7 +3,7 @@ import actualWebsiteImg from "./images/actual-website.jpg";
 import styled from "styled-components";
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from "react-router-dom";
-import SignInHandler from './components/SignInHandler';
+import ContactFormPopupHandler from './components/ContactFormPopupHandler';
 
 function App() {
 
@@ -11,7 +11,7 @@ function App() {
     <ThemeProvider theme={ColorTheme}>
       <BrowserRouter>
         <Image src={actualWebsiteImg} />
-        <SignInHandler />
+        <ContactFormPopupHandler />
       </BrowserRouter>
     </ThemeProvider>
   );
