@@ -25,12 +25,11 @@ const PhoneNumberForm = ({ Background, Container, loading, setPhone, handleSubmi
           Please enter your phone number.          
         </ContentText>
         
-        {/* I think this being a form, submit automatically refreshes the page. Maybe wnat to just change this into a regular button. */}
-        <Form onSubmit={handleSubmitButton}>
+        <FormContainer>
           <Label for="phone">Phone:</Label>
           <Input onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" required />
-          <Button type="submit">Continue</Button>
-        </Form>
+          <Button onClick={handleSubmitButton}>Continue</Button>
+        </FormContainer>
       </>
     )
   }
@@ -61,7 +60,7 @@ const ContentText = styled.p`
   width: fit-content;
 `;
 
-const Form = styled.form`
+const FormContainer = styled.div`
   margin: 2rem auto;
   display: flex;
   flex-direction: column;

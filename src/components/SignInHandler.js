@@ -13,6 +13,8 @@ const FetchState = {
   FAILED: "FAILED"
 }
 
+// TODO: Check if user is already signed in (when scanning QR code again).
+// If so, redirect to "/authorizedSS" and ask for number again.
 const SignInHandler = () => {
   
   const [showPopup, setShowPopup] = useState(false);
@@ -81,6 +83,7 @@ const SignInHandler = () => {
   }
 
   function redirectToActualWebsite() {
+    console.log("called")
     window.location.assign('https://katlynmcmasters.foxroach.com/');
   }
   
