@@ -46,19 +46,25 @@ const ContactFormPopupHandler = () => {
       .then(cognitoUser => {
         console.log("Found user in Cognito");
         
-        let name = "";
-        if (cognitoUser.username.includes("Google")) {
-          name = cognitoUser.attributes.name;
-        } else if (cognitoUser.username.includes("Facebook")) {
-          name = cognitoUser.attributes.name + " ";
-          name += cognitoUser.attributes[`family_name`];
+        let firstNm = "";
+        let lastNm = "";
+        if (cognitoUser.username.includes("Facebook")) {
+          firstNm = cognitoUser.attributes.name + " ";
+          lastNm = cognitoUser.attributes[`family_name`];
+        } else if (cognitoUser.username.includes("Google")) {
+          const namesArr = cognitoUser.attributes.name.split(" ");
+          firstNm = namesArr[0];
+          lastNm = namesArr.length >= 2 ? namesArr[1] : "";
         } else {
           console.warn("Unsure if Cognito user is from Google or from Facebook, so may not be getting their last name properly");
-          name = cognitoUser.name;
+          firstNm = cognitoUser.attributes.name;
+          if (cognitoUser.attributes[`family_name`] !== "") {
+            lastNm = cognitoUser.attributes[`family_name`];
+          }
         }
         
-        setFirstName(name);
-        setLastName("")   // ToDo: Set lastName
+        setFirstName(firstNm);
+        setLastName(lastNm);
         setEmail(cognitoUser.attributes.email);
         setCognitoFetchState(FetchState.SUCCESSFUL);
       })
