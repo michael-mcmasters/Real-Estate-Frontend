@@ -92,18 +92,18 @@ const ContactFormPopupHandler = () => {
   }
 
   async function addLeadToDatabase() {
-    // try {
-    //   const lead = {
-    //     firstName: name,
-    //     lastName: "",
-    //     phone: phone,
-    //     email: email
-    //   }
-    //   await API.graphql(graphqlOperation(createLead, { input: lead }))
-    //   console.log("New lead added to database");
-    // } catch (err) {
-    //   console.log("Adding lead to database did not work. Error: " + err);
-    // }
+    try {
+      const lead = {
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone,
+        email: email
+      }
+      await API.graphql(graphqlOperation(createLead, { input: lead }))
+      console.log("New lead added to database");
+    } catch (err) {
+      console.log("Adding lead to database did not work. Error: " + err);
+    }
   }
   
   function redirectToActualWebsite() {
