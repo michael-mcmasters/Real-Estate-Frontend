@@ -5,16 +5,14 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmitButton}) => {
 
-  const phoneInputElement = useRef(null);
-  const continueButtonElement = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const inputElement = useRef(null);
+  const buttonElement = useRef(null);
   
   useEffect(() => {
     const inputFieldKeyListener = (event) => {
-      if (event.keyCode === 13) {                               // Enter
-        continueButtonElement.current.click();
-      } else if (event.keyCode === 27) {                        // Escape
-        phoneInputElement.current.blur();
+      if (event.keyCode === 13) {                       // Enter key
+        buttonElement.current.click();
       }
     }
     document.addEventListener("keydown", inputFieldKeyListener);
@@ -23,7 +21,7 @@ const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmit
   }, []);
   
   function handleSubmit() {
-    const value = phoneInputElement.current.value;
+    const value = inputElement.current.value;
     const containsLetters = (value) => /[a-zA-Z]/.test(value);
     
     if (value === "") {
@@ -45,28 +43,35 @@ const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmit
         <TitleContainer>
           <Title>Authenticating...</Title>
         </TitleContainer>
-          <LoaderContainer>
-            <Loader type="TailSpin" color="#00BFFF" height={80} width={80} />
-          </LoaderContainer>
+        <LoaderContainer>
+          <Loader type="TailSpin" color="#00BFFF" height={80} width={80} />
+        </LoaderContainer>
       </>
     )
   } else {
     element = (
       <>
-        <Title>
-          One more thing
-        </Title>
-        <ContentText>
-          Please enter your phone number.
-          <br />        
-          {errorMessage}
-        </ContentText>
+        <TitleContainer>
+          <Title>
+            One more thing
+          </Title>
+        </TitleContainer>
+        <MainText>
+          Please enter your phone number
+        </MainText>
         
+      <FlexContainer>
+        {errorMessage !== "" && (
+          <ErrorMessageContainer>
+            {errorMessage}
+          </ErrorMessageContainer>
+        )}
         <FormContainer>
           <Label for="phone">Phone:</Label>
-          <Input ref={phoneInputElement} pressedContinueWithoutNumber={errorMessage !== ""} onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" required />
-          <Button ref={continueButtonElement} onClick={handleSubmit}>Continue</Button>
+          <Input ref={inputElement} pressedContinueWithoutNumber={errorMessage !== ""} onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" required />
+          <Button ref={buttonElement} onClick={handleSubmit}>Continue</Button>
         </FormContainer>
+      </FlexContainer>
       </>
     )
   }
@@ -101,16 +106,30 @@ const LoaderContainer = styled.div`
   height: 12rem;
 `;
 
-const ContentText = styled.p`
+const MainText = styled.p`
   margin: 1rem auto;
   width: fit-content;
 `;
 
+const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 9.5rem;
+`;
+
+const ErrorMessageContainer = styled.div`
+  color: orange;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1rem;
+`;
+
 const FormContainer = styled.div`
-  margin: 2rem auto;
   display: flex;
   flex-direction: column;
   width: 15rem;
+  margin: 0 auto;
 `;
 
 const Label = styled.label`
@@ -123,7 +142,7 @@ const Input = styled.input`
   border-radius: 4px;
   border: 1px solid black;
   margin-bottom: 1rem;
-  background-color: ${props => props.pressedContinueWithoutNumber ? "#F289A7" : ""};
+  background-color: ${props => props.pressedContinueWithoutNumber ? "orange" : ""};
 `;
 
 const Button = styled.button`
