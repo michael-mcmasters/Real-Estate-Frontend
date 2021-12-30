@@ -18,7 +18,9 @@ const ContactFormPopupHandler = () => {
   const [showInitialPopup, setShowInitialPopup] = useState(false);
   const [cognitoFetchState, setCognitoFetchState] = useState(FetchState.NOT_INITIATED);
   
-  const [name, setName] = useState("");
+  //const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   
@@ -55,7 +57,8 @@ const ContactFormPopupHandler = () => {
           name = cognitoUser.name;
         }
         
-        setName(name);
+        setFirstName(name);
+        setLastName("")   // ToDo: Set lastName
         setEmail(cognitoUser.attributes.email);
         setCognitoFetchState(FetchState.SUCCESSFUL);
       })
@@ -107,8 +110,10 @@ const ContactFormPopupHandler = () => {
         Background={Background}
         Container={Container}
         showSSOOptions={true}
-        name={name}
-        setName={setName}
+        firstName={firstName}
+        lastName={lastName}
+        setFirstName={setFirstName}
+        setLastName={setLastName}
         setEmail={setEmail}
         setPhone={setPhone}
         handleSSOSignIn={handleSSOSignIn}
@@ -124,8 +129,10 @@ const ContactFormPopupHandler = () => {
           Background={Background}
           Container={Container}
           showSSOOptions={false}
-          name={name}
-          setName={setName}
+          firstName={firstName}
+          lastName={lastName}
+          setFirstName={setFirstName}
+          setLastName={setLastName}
           setEmail={setEmail}
           setPhone={setPhone}
           handleSSOSignIn={handleSSOSignIn}
@@ -154,6 +161,29 @@ const ContactFormPopupHandler = () => {
         <Route path="/" element={
           <>
             {showInitialPopup && getInitialPopup()}
+            
+            {/* Uncomment below to test components */}
+            {/* <ContactFormPopup
+              Background={Background}
+              Container={Container}
+              showSSOOptions={false}
+              firstName={firstName}
+              lastName={lastName}
+              setName={setName}
+              setEmail={setEmail}
+              setPhone={setPhone}
+              handleSSOSignIn={handleSSOSignIn}
+              handleSubmit={HandleContactFormSubmit}
+            /> */}
+
+            {/* <PhoneFormPopup
+              Background={Background}
+              Container={Container}
+              loading={false}
+              setPhone={setPhone}
+              handleSubmitButton={handlePhoneNumberFormSubmit}
+            /> */}
+            
           </>
         } />
         <Route path="/authorizedSSO" element={

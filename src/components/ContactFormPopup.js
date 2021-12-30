@@ -6,7 +6,7 @@ import FLogo from "../images/FLogo.png"
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
 
-const ContactFormPopup = ({ Background, Container, showSSOOptions, name, setName, setEmail, setPhone, handleSSOSignIn, handleSubmit }) => {
+const ContactFormPopup = ({ Background, Container, showSSOOptions, firstName, lastName, setFirstName, setLastName, setEmail, setPhone, handleSSOSignIn, handleSubmit }) => {
 
   const [transition, setTransition] = useState(false);
 
@@ -53,8 +53,10 @@ const ContactFormPopup = ({ Background, Container, showSSOOptions, name, setName
         
         {/* Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation */}
         <Form onSubmit={handleSubmit} action={`https://formsubmit.co/${email}`} method="POST">
-          <Label for="name">Name:</Label>
-          <Input onChange={(e) => setName(e.target.value)} id="name" placeholder='First and last name' type="text" name="name" required />
+          <Label for="first-name">First name:</Label>
+          <Input onChange={(e) => setFirstName(e.target.value)} id="first-name" placeholder='First name' type="text" name="name" required />
+          <Label for="last-name">Last name:</Label>
+          <Input onChange={(e) => setLastName(e.target.value)} id="last-name" placeholder='Last name' type="text" name="name" required />
           <Label for="email">Email:</Label>
           <Input onChange={(e) => setEmail(e.target.value)} id="email" placeholder="email@domain.com" type="email" name="email" required />
           <Label for="phone">Phone:</Label>
@@ -67,7 +69,7 @@ const ContactFormPopup = ({ Background, Container, showSSOOptions, name, setName
           {/* Tricks bots to avoid spam */}
           <Input type="text" name="_honey" style={{ display: "none" }} />
           {/* Subject of email */}
-          <Input type="hidden" name="_subject" value={`New Lead! - ${name}`} />
+          <Input type="hidden" name="_subject" value={`New Lead! - ${firstName} ${lastName}`} />
           {/* Sends email */}
           <Button type="submit">Continue</Button>
         </Form>
