@@ -202,12 +202,10 @@ const Container = styled.div`
   border: 1px solid black;
   border-radius: 10px;
   padding: 0 1rem;
-  min-width: 17rem;
+  width: 17rem;
   min-height: 16.5rem;
   
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.8);
-  
-  cursor: pointer;
   z-index: 1;
 `;
 
