@@ -2,17 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from "styled-components";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import UsePhoneValidator from "../hooks/UsePhoneValidator";
 
 const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmitButton}) => {
 
-  const [errorMessage, setErrorMessage] = useState("");
-  const inputElement = useRef(null);
-  const buttonElement = useRef(null);
+  const {phoneIsValid, phoneErrorMessage} = UsePhoneValidator("");
+  const phoneInputEle = useRef(null);
+  const continueButtonEle = useRef(null);
   
   useEffect(() => {
     const inputFieldKeyListener = (event) => {
       if (event.keyCode === 13) {                       // Enter key
-        buttonElement.current.click();
+        continueButtonEle.current.click();
       }
     }
     document.addEventListener("keydown", inputFieldKeyListener);
@@ -21,17 +22,7 @@ const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmit
   }, []);
   
   function handleSubmit() {
-    const value = inputElement.current.value;
-    const containsLetters = (value) => /[a-zA-Z]/.test(value);
-    
-    if (value === "") {
-      setErrorMessage("Field can not be empty");
-    } else if (containsLetters(value)) {
-      setErrorMessage("Field should only contain numbers")
-    } else if (value.toString().length < 10) {
-      setErrorMessage("Number must be 10 digits long");
-    } else {
-      setErrorMessage("");
+    if (phoneIsValid(phoneInputEle.current.value)) {
       handleSubmitButton();
     }
   }
@@ -61,15 +52,15 @@ const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmit
         </MainText>
         
       <FlexContainer>
-        {errorMessage !== "" && (
+        {phoneErrorMessage !== "" && (
           <ErrorMessageContainer>
-            {errorMessage}
+            {phoneErrorMessage}
           </ErrorMessageContainer>
         )}
         <FormContainer>
           <Label for="phone">Phone:</Label>
-          <Input ref={inputElement} pressedContinueWithoutNumber={errorMessage !== ""} onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" required />
-          <Button ref={buttonElement} onClick={handleSubmit}>Continue</Button>
+          <Input ref={phoneInputEle} pressedContinueWithoutNumber={phoneErrorMessage !== ""} onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" required />
+          <Button ref={continueButtonEle} onClick={handleSubmit}>Continue</Button>
         </FormContainer>
       </FlexContainer>
       </>
