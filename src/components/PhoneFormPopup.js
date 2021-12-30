@@ -42,10 +42,12 @@ const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmit
   if (loading) {
     element = (
       <>
-        <Title>Authenticating...</Title>
-        <LoaderContainer>
-          <Loader type="TailSpin" color="#00BFFF" height={80} width={80} />
-        </LoaderContainer>
+        <TitleContainer>
+          <Title>Authenticating...</Title>
+        </TitleContainer>
+          <LoaderContainer>
+            <Loader type="TailSpin" color="#00BFFF" height={80} width={80} />
+          </LoaderContainer>
       </>
     )
   } else {
@@ -79,14 +81,24 @@ const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmit
   );
 };
 
+const TitleContainer = styled.div`
+  margin: 0 auto;
+  padding: 0;
+  border-bottom: 1px solid ${props => props.theme.gray};
+  text-align: center;
+`;
+
 const Title = styled.h3`
   margin: 1rem auto;
   width: fit-content;
 `;
 
 const LoaderContainer = styled.div`
-  margin: 0 auto;
   width: fit-content;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  height: 12rem;
 `;
 
 const ContentText = styled.p`
