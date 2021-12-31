@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled, { css } from "styled-components";
 import GLogo from "../images/GLogo.png"
 import FLogo from "../images/FLogo.png"
+import phoneRegexValidation from '../Constants/PhoneValidation';
 
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
@@ -39,17 +40,6 @@ const ContactFormPopup = ({ Background, Container, showSSOOptions, firstName, la
     )
   }
   
-  const phoneRegex = "([0-9]{4}[0-9]{3}[0-9]{4}|[0-9]{3}[0-9]{3}[0-9]{4}|[0-9]{3}-[0-9]{3}-[0-9]{4}|[0-9]{4}-[0-9]{3}-[0-9]{4}|[0-9]{1}-[0-9]{3}-[0-9]{3}-[0-9]{4}|\([0-9]{3}\)-[0-9]{3}-[0-9]{4}|[0-9]{1}-\([0-9]{3}\)-[0-9]{3}-[0-9]{4})";
-  /*
-    ([0-9]{4}[0-9]{3}[0-9]{4}                       13023456789
-    |[0-9]{3}[0-9]{3}[0-9]{4}                       3023456789
-    |[0-9]{3}-[0-9]{3}-[0-9]{4}                     302-345-6789
-    |[0-9]{4}-[0-9]{3}-[0-9]{4}                     1302-345-6789 
-    |[0-9]{1}-[0-9]{3}-[0-9]{3}-[0-9]{4}            1-302-345-6789
-    |\([0-9]{3}\)-[0-9]{3}-[0-9]{4}                 (302)-345-6789
-    |[0-9]{1}-\([0-9]{3}\)-[0-9]{3}-[0-9]{4})       1-(302)-345-6789    
-  */
-  
   return (
     <>
       <Background transition={transition} />
@@ -72,7 +62,7 @@ const ContactFormPopup = ({ Background, Container, showSSOOptions, firstName, la
           <Label for="email">Email:</Label>
           <Input onChange={(e) => setEmail(e.target.value)} id="email" placeholder="email@domain.com" type="email" name="email" required />
           <Label for="phone">Phone:</Label>
-          <Input onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" pattern={phoneRegex} required />
+          <Input onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" pattern={phoneRegexValidation} required />
 
           {/* Removes reCaptcha */}
           <Input type="hidden" name="_captcha" value="false" />
