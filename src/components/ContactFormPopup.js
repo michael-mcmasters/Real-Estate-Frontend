@@ -39,6 +39,17 @@ const ContactFormPopup = ({ Background, Container, showSSOOptions, firstName, la
     )
   }
   
+  const phoneRegex = "([0-9]{4}[0-9]{3}[0-9]{4}|[0-9]{3}[0-9]{3}[0-9]{4}|[0-9]{3}-[0-9]{3}-[0-9]{4}|[0-9]{4}-[0-9]{3}-[0-9]{4}|[0-9]{1}-[0-9]{3}-[0-9]{3}-[0-9]{4}|\([0-9]{3}\)-[0-9]{3}-[0-9]{4}|[0-9]{1}-\([0-9]{3}\)-[0-9]{3}-[0-9]{4})";
+  /*
+    ([0-9]{4}[0-9]{3}[0-9]{4}                       13023456789
+    |[0-9]{3}[0-9]{3}[0-9]{4}                       3023456789
+    |[0-9]{3}-[0-9]{3}-[0-9]{4}                     302-345-6789
+    |[0-9]{4}-[0-9]{3}-[0-9]{4}                     1302-345-6789 
+    |[0-9]{1}-[0-9]{3}-[0-9]{3}-[0-9]{4}            1-302-345-6789
+    |\([0-9]{3}\)-[0-9]{3}-[0-9]{4}                 (302)-345-6789
+    |[0-9]{1}-\([0-9]{3}\)-[0-9]{3}-[0-9]{4})       1-(302)-345-6789    
+  */
+  
   return (
     <>
       <Background transition={transition} />
@@ -51,6 +62,7 @@ const ContactFormPopup = ({ Background, Container, showSSOOptions, firstName, la
 
         {ssoOptions}
         
+        
         {/* Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation */}
         <Form onSubmit={handleSubmit} action={`https://formsubmit.co/${email}`} method="POST">
           <Label for="first-name">First name:</Label>
@@ -60,7 +72,7 @@ const ContactFormPopup = ({ Background, Container, showSSOOptions, firstName, la
           <Label for="email">Email:</Label>
           <Input onChange={(e) => setEmail(e.target.value)} id="email" placeholder="email@domain.com" type="email" name="email" required />
           <Label for="phone">Phone:</Label>
-          <Input onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" required />
+          <Input onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" pattern={phoneRegex} required />
 
           {/* Removes reCaptcha */}
           <Input type="hidden" name="_captcha" value="false" />
