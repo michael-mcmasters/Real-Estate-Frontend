@@ -114,7 +114,7 @@ const ContactFormPopupHandler = () => {
       <ContactFormPopup
         Background={Background}
         Container={Container}
-        showSSOOptions={true}
+        errorLoggingIntoSSO={false}
         firstName={firstName}
         lastName={lastName}
         setFirstName={setFirstName}
@@ -133,7 +133,7 @@ const ContactFormPopupHandler = () => {
         <ContactFormPopup
           Background={Background}
           Container={Container}
-          showSSOOptions={false}
+          errorLoggingIntoSSO={true}
           firstName={firstName}
           lastName={lastName}
           setFirstName={setFirstName}

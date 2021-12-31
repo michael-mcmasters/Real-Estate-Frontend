@@ -8,16 +8,16 @@ import LoadingFormPopup from './LoadingFormPopup';
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
 
-const ContactFormPopup = ({ Background, Container, showSSOOptions, firstName, lastName, setFirstName, setLastName, setEmail, setPhone, handleSSOSignIn, handleSubmit }) => {
+const ContactFormPopup = ({ Background, Container, errorLoggingIntoSSO, firstName, lastName, setFirstName, setLastName, setEmail, setPhone, handleSSOSignIn, handleSubmit }) => {
 
   const [transition, setTransition] = useState(false);
-  const [signingInWithSSO, setSigningInWithSSO] = useState(false);
+  const [submittingForm, setSubmittingForm] = useState(false);
 
   useEffect(() => {
     setTransition(true);
   }, []);
   
-  if (signingInWithSSO) {
+  if (submittingForm) {
     return (
       <>
         <Background transition={transition} />
@@ -28,29 +28,30 @@ const ContactFormPopup = ({ Background, Container, showSSOOptions, firstName, la
     )
   }
   
-  let ssoOptions;
-  if (showSSOOptions) {
-    ssoOptions = (
-      <SingleSignOnContainer>
-        <SingleSignOn onClick={() => { setSigningInWithSSO(true); handleSSOSignIn("Facebook")}} backgroundColor={"#237CF3"}>
-          <FImage src={FLogo} />
-          <Text>Continue with Facebook</Text>
-        </SingleSignOn>
-        <br />
-        <SingleSignOn onClick={() => { setSigningInWithSSO(true); handleSSOSignIn("Google")}} backgroundColor={"#DF513F"}>
-          <GImage src={GLogo} />
-          <Text>Continue with Google</Text>
-        </SingleSignOn>
-      </SingleSignOnContainer>
-    );
-  } else {
-    ssoOptions = (
-      <SingleSignOnErrorContainer>
-        There was an error logging in.
-        <br />
-        Please fill the form to continue.
-      </SingleSignOnErrorContainer>
-    )
+  function getSSOOptions(errorLoggingIntoSSO) {
+    if (!errorLoggingIntoSSO) {
+      return (
+        <SingleSignOnContainer>
+          <SingleSignOn onClick={() => { setSubmittingForm(true); handleSSOSignIn("Facebook") }} backgroundColor={"#237CF3"}>
+            <FImage src={FLogo} />
+            <Text>Continue with Facebook</Text>
+          </SingleSignOn>
+          <br />
+          <SingleSignOn onClick={() => { setSubmittingForm(true); handleSSOSignIn("Google") }} backgroundColor={"#DF513F"}>
+            <GImage src={GLogo} />
+            <Text>Continue with Google</Text>
+          </SingleSignOn>
+        </SingleSignOnContainer>
+      );
+    } else {
+      return (
+        <SingleSignOnErrorContainer>
+          There was an error logging in.
+          <br />
+          Please fill the form to continue.
+        </SingleSignOnErrorContainer>
+      )
+    }
   }
   
   return (
@@ -63,11 +64,10 @@ const ContactFormPopup = ({ Background, Container, showSSOOptions, firstName, la
           <Title>Get instant access to these great properties</Title>
         </TitleContainer>
 
-        {ssoOptions}
-        
+        {getSSOOptions(errorLoggingIntoSSO)}
         
         {/* Sends email using FormSubmit. See documentation: https://formsubmit.co/documentation */}
-        <Form onSubmit={handleSubmit} action={`https://formsubmit.co/${email}`} method="POST">
+        <Form onSubmit={() => { setSubmittingForm(true); handleSubmit(); }} action={`https://formsubmit.co/${email}`} method="POST">
           <Label for="first-name">First name:</Label>
           <Input onChange={(e) => setFirstName(e.target.value)} id="first-name" placeholder='First name' type="text" name="name" required />
           <Label for="last-name">Last name:</Label>
