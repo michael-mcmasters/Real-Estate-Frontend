@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import GLogo from "../images/GLogo.png"
 import FLogo from "../images/FLogo.png"
 import phoneRegexValidation from '../Constants/PhoneValidation';
+import LoadingFormPopup from './LoadingFormPopup';
 
 const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 
@@ -10,21 +11,33 @@ const email = process.env.REACT_APP_EMAIL_TO_SEND_TO;
 const ContactFormPopup = ({ Background, Container, showSSOOptions, firstName, lastName, setFirstName, setLastName, setEmail, setPhone, handleSSOSignIn, handleSubmit }) => {
 
   const [transition, setTransition] = useState(false);
+  const [signingInWithSSO, setSigningInWithSSO] = useState(false);
 
   useEffect(() => {
     setTransition(true);
   }, []);
   
+  if (signingInWithSSO) {
+    return (
+      <>
+        <Background transition={transition} />
+        <Container transition={transition}>
+          <LoadingFormPopup />
+        </Container>
+      </>
+    )
+  }
+  
   let ssoOptions;
   if (showSSOOptions) {
     ssoOptions = (
       <SingleSignOnContainer>
-        <SingleSignOn onClick={() => handleSSOSignIn("Facebook")} backgroundColor={"#237CF3"}>
+        <SingleSignOn onClick={() => { setSigningInWithSSO(true); handleSSOSignIn("Facebook")}} backgroundColor={"#237CF3"}>
           <FImage src={FLogo} />
           <Text>Continue with Facebook</Text>
         </SingleSignOn>
         <br />
-        <SingleSignOn onClick={() => handleSSOSignIn("Google")} backgroundColor={"#DF513F"}>
+        <SingleSignOn onClick={() => { setSigningInWithSSO(true); handleSSOSignIn("Google")}} backgroundColor={"#DF513F"}>
           <GImage src={GLogo} />
           <Text>Continue with Google</Text>
         </SingleSignOn>
@@ -101,7 +114,6 @@ const SingleSignOnErrorContainer = styled.div`
   margin-top: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid ${props => props.theme.gray};
-  /* width: fit-content; */
   text-align: center;
 `;
 

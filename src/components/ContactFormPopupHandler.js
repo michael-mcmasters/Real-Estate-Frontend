@@ -165,7 +165,7 @@ const ContactFormPopupHandler = () => {
       <Routes>
         <Route path="/" element={
           <>
-            {/* {showInitialPopup && getInitialPopup()} */}
+            {showInitialPopup && getInitialPopup()}
             
             {/* Uncomment below to test components */}
             {/* <ContactFormPopup

@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from "styled-components";
-import Loader from "react-loader-spinner";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import phoneRegexValidation from "../Constants/PhoneValidation";
+import LoadingFormPopup from './LoadingFormPopup';
 
 const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmitButton}) => {
 
-  const phoneErrorMessage = "";
   const phoneInputEle = useRef(null);
   const continueButtonEle = useRef(null);
   
@@ -24,14 +22,7 @@ const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmit
   let element = null;
   if (loading) {
     element = (
-      <>
-        <TitleContainer>
-          <Title>Authenticating...</Title>
-        </TitleContainer>
-        <LoaderContainer>
-          <Loader type="TailSpin" color="#00BFFF" height={80} width={80} />
-        </LoaderContainer>
-      </>
+      <LoadingFormPopup />
     )
   } else {
     element = (
@@ -46,14 +37,9 @@ const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmit
         </MainText>
         
       <FlexContainer>
-        {phoneErrorMessage !== "" && (
-          <ErrorMessageContainer>
-            {phoneErrorMessage}
-          </ErrorMessageContainer>
-        )}
         <FormContainer onSubmit={(e) => {e.preventDefault(); handleSubmitButton()}}>
           <Label for="phone">Phone:</Label>
-            <Input ref={phoneInputEle} pressedContinueWithoutNumber={phoneErrorMessage !== ""} onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" pattern={phoneRegexValidation} required />
+            <Input ref={phoneInputEle} onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" pattern={phoneRegexValidation} required />
             <Button ref={continueButtonEle}>Continue</Button>
         </FormContainer>
       </FlexContainer>
@@ -83,14 +69,6 @@ const Title = styled.h3`
   width: fit-content;
 `;
 
-const LoaderContainer = styled.div`
-  width: fit-content;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  height: 12rem;
-`;
-
 const MainText = styled.p`
   margin: 1rem auto;
   width: fit-content;
@@ -101,13 +79,6 @@ const FlexContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   height: 9.5rem;
-`;
-
-const ErrorMessageContainer = styled.div`
-  color: orange;
-  font-weight: 500;
-  text-align: center;
-  margin-bottom: 1rem;
 `;
 
 const FormContainer = styled.form`
@@ -127,7 +98,6 @@ const Input = styled.input`
   border-radius: 4px;
   border: 1px solid black;
   margin-bottom: 1rem;
-  background-color: ${props => props.pressedContinueWithoutNumber ? "orange" : ""};
 `;
 
 const Button = styled.button`
