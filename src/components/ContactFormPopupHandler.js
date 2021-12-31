@@ -18,7 +18,6 @@ const ContactFormPopupHandler = () => {
   const [showInitialPopup, setShowInitialPopup] = useState(false);
   const [cognitoFetchState, setCognitoFetchState] = useState(FetchState.NOT_INITIATED);
   
-  //const [name, setName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -87,7 +86,7 @@ const ContactFormPopupHandler = () => {
   
   function handlePhoneNumberFormSubmit() {
     addLeadToDatabase();
-    redirectToActualWebsite();
+    redirectToActualWebsite();  
     // ToDo: Manually send email.
   }
 
@@ -166,7 +165,7 @@ const ContactFormPopupHandler = () => {
       <Routes>
         <Route path="/" element={
           <>
-            {showInitialPopup && getInitialPopup()}
+            {/* {showInitialPopup && getInitialPopup()} */}
             
             {/* Uncomment below to test components */}
             {/* <ContactFormPopup

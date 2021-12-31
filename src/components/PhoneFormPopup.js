@@ -2,17 +2,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from "styled-components";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import UsePhoneValidator from "../hooks/UsePhoneValidator";
+import phoneRegexValidation from "../Constants/PhoneValidation";
 
 const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmitButton}) => {
 
-  const {phoneIsValid, phoneErrorMessage} = UsePhoneValidator("");
+  const phoneErrorMessage = "";
   const phoneInputEle = useRef(null);
   const continueButtonEle = useRef(null);
   
   useEffect(() => {
     const inputFieldKeyListener = (event) => {
-      if (event.keyCode === 13) {                       // Enter key
+      if (event.keyCode === 13) {                   // Enter key
         continueButtonEle.current.click();
       }
     }
@@ -20,12 +20,6 @@ const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmit
 
     return () => document.removeEventListener("keydown", inputFieldKeyListener);
   }, []);
-  
-  function handleSubmit() {
-    if (phoneIsValid(phoneInputEle.current.value)) {
-      handleSubmitButton();
-    }
-  }
   
   let element = null;
   if (loading) {
@@ -57,10 +51,10 @@ const PhoneFormPopup = ({ Background, Container, loading, setPhone, handleSubmit
             {phoneErrorMessage}
           </ErrorMessageContainer>
         )}
-        <FormContainer>
+        <FormContainer onSubmit={(e) => {e.preventDefault(); handleSubmitButton()}}>
           <Label for="phone">Phone:</Label>
-          <Input ref={phoneInputEle} pressedContinueWithoutNumber={phoneErrorMessage !== ""} onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" required />
-          <Button ref={continueButtonEle} onClick={handleSubmit}>Continue</Button>
+            <Input ref={phoneInputEle} pressedContinueWithoutNumber={phoneErrorMessage !== ""} onChange={(e) => setPhone(e.target.value)} id="phone" placeholder='xxx-xxx-xxxx' type="tel" name="tel" pattern={phoneRegexValidation} required />
+            <Button ref={continueButtonEle}>Continue</Button>
         </FormContainer>
       </FlexContainer>
       </>
@@ -116,7 +110,7 @@ const ErrorMessageContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
-const FormContainer = styled.div`
+const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   width: 15rem;
